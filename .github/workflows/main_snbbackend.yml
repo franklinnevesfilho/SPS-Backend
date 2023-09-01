@@ -10,6 +10,7 @@ on:
   workflow_dispatch:
 
 env:
+  DB_URL: jdbc:mysql://sql.freedb.tech:3306/freedb_studentsNbooks
   DB_USERNAME: freedb_group4
   DB_PASSWORD: YsYC*2hcNk2&4&*
 
