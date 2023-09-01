@@ -22,16 +22,16 @@ public class ListingController {
     @Autowired
     ListingService service;
 
-    @PostMapping("/saveAll")
+    @PostMapping(path = "/saveAll")
     public String postListings(){
         service.addListings();
         return "Saved all listings";
     }
-    @GetMapping("/{listingId}")
+    @GetMapping(path = "/{listingId}")
     public Optional<Listing> getListingById(@PathVariable("listingId") int listingId){
         return service.getListingsById(listingId);
     }
-    @GetMapping("/getAll")
+    @GetMapping(path = "/getAll")
     public Iterable<Listing> getAllListings(){
         return service.getAllListings();
     }
