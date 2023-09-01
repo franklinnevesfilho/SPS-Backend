@@ -9,10 +9,9 @@ on:
       - main
   workflow_dispatch:
 
-  display:
-    env:
-      DB_USERNAME: freedb_group4
-      DB_PASSWORD: YsYC*2hcNk2&4&*
+env:
+  DB_USERNAME: freedb_group4
+  DB_PASSWORD: YsYC*2hcNk2&4&*
 
 jobs:
   build:
