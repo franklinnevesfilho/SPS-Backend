@@ -15,9 +15,10 @@ public class UserController {
     @Autowired
     UserService userService;
 
-    @PostMapping(path="/save")
-    public void setUsers(){
+    @GetMapping(path="/save")
+    public String setUsers(){
         userService.defineUsers();
+        return "Users have been added";
     }
 
     @GetMapping(path="/getAll")
@@ -30,7 +31,7 @@ public class UserController {
         return userService.getUser(userId);
     }
 
-    @PostMapping(path="/{firstName}/{lastName}/{email}")
+    @GetMapping(path="/{firstName}/{lastName}/{email}")
     public String addUser(@PathVariable("firstName") String firstName,@PathVariable("lastName") String lastName,@PathVariable("email") String email){
         User user = new User(firstName,lastName,email, UserRole.BUYER);
         userService.addUser(user);
