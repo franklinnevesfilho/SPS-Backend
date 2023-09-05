@@ -2,13 +2,13 @@ package com.groupfour.snb.services;
 
 import com.groupfour.snb.models.email.EmailGenerator;
 import com.groupfour.snb.models.user.User;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.AllArgsConstructor;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 
+@AllArgsConstructor
 @Service
 public class EmailService {
-    @Autowired
     private JavaMailSender mailSender;
 
     public void sendVerificationEmail(User user){
