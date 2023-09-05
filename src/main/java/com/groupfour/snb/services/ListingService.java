@@ -9,6 +9,7 @@ import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Optional;
+import java.util.UUID;
 
 @Service
 public class ListingService {
@@ -27,7 +28,7 @@ public class ListingService {
         listingRepository.saveAll(Arrays.stream(listings).toList());
     }
 
-    public Optional<Listing> getListingsById(int listingId) {
+    public Optional<Listing> getListingsById(UUID listingId) {
         return listingRepository.findById(listingId);
     }
 

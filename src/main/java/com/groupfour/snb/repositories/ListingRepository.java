@@ -5,6 +5,8 @@ import com.groupfour.snb.models.listing.Listing;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
+import java.util.UUID;
+
 /*
 
  CRUD stands for:
@@ -15,4 +17,4 @@ import org.springframework.stereotype.Repository;
 
  */
 @Repository
-public interface ListingRepository extends CrudRepository<Listing,Integer> {}
+public interface ListingRepository extends CrudRepository<Listing, UUID> {}
