@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Optional;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/listing")
@@ -28,7 +29,7 @@ public class ListingController {
         return "Saved all listings";
     }
     @GetMapping(path = "/{listingId}")
-    public Optional<Listing> getListingById(@PathVariable("listingId") int listingId){
+    public Optional<Listing> getListingById(@PathVariable("listingId") UUID listingId){
         return service.getListingsById(listingId);
     }
     @GetMapping(path = "/getAll")

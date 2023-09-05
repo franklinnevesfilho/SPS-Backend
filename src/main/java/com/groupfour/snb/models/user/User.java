@@ -1,24 +1,22 @@
 package com.groupfour.snb.models.user;
-import com.groupfour.snb.models.listing.Listing;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.annotation.Nullable;
+import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.UUID;
 
 
 // Using lombok to generate constructors
 @AllArgsConstructor
-@NoArgsConstructor
 @RequiredArgsConstructor
 @Data
 @Entity
+@Table(name="user_table")
 public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long userId;
+    private UUID userId;
 
     @NonNull
     private String firstName;
@@ -26,6 +24,12 @@ public class User {
     private String lastName;
     @NonNull
     private String email;
-    @NonNull
+    @Nullable
     private UserRole role;
+
+    @Nullable
+    private UUID verificationCode;
+    public User(){
+        role = UserRole.BUYER;
+    }
 }
