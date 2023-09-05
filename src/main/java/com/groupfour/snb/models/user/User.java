@@ -15,6 +15,7 @@ import java.util.UUID;
 public class User {
 
     @Id
+    @Column(name="user_id")
     @GeneratedValue(strategy = GenerationType.AUTO)
     private UUID userId;
 
@@ -25,10 +26,11 @@ public class User {
     @NonNull
     private String email;
     @Nullable
+    private String password;
+    @Enumerated(EnumType.STRING)
     private UserRole role;
+    private boolean activated;
 
-    @Nullable
-    private UUID verificationCode;
     public User(){
         role = UserRole.BUYER;
     }

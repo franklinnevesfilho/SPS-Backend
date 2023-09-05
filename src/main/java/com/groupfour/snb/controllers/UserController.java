@@ -2,7 +2,6 @@ package com.groupfour.snb.controllers;
 
 import com.groupfour.snb.models.user.User;
 import com.groupfour.snb.services.UserService;
-import jakarta.mail.MessagingException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -33,7 +32,7 @@ public class UserController {
     }
 
     @PostMapping(path="/addUser")
-    public String addUser(@RequestBody User user) throws MessagingException {
+    public String addUser(@RequestBody User user){
         userService.addUser(user);
         return "User with name: " + user.getFirstName() + " and id: " + user.getUserId() + " has been added.";
     }

@@ -1,7 +1,6 @@
 package com.groupfour.snb.services;
 import com.groupfour.snb.models.user.User;
 import com.groupfour.snb.repositories.UserRepository;
-import jakarta.mail.MessagingException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -47,9 +46,11 @@ public class UserService {
         return userRepository.findAll();
     }
 
-    public void addUser(User user) throws MessagingException {
-       user.setVerificationCode(UUID.randomUUID());
+    public void addUser(User user) {
        emailService.sendVerificationEmail(user);
        userRepository.save(user);
+    }
+    public void activateUser(User user) {
+        user.setActivated(true);
     }
 }
