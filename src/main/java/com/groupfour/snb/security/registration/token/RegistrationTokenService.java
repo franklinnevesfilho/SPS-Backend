@@ -1,24 +1,36 @@
 package com.groupfour.snb.security.registration.token;
 
-import lombok.AllArgsConstructor;
+import com.groupfour.snb.models.user.User;
+import lombok.NoArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.Optional;
 import java.util.UUID;
-
+@NoArgsConstructor
 @Service
-@AllArgsConstructor
 public class RegistrationTokenService {
-    private final RegistrationTokenRepository tokenRepo;
+    @Autowired
+    private RegistrationTokenRepository tokenRepo;
 
     public void saveToken(RegistrationToken token){
         tokenRepo.save(token);
     }
-    public int setConfirmedAt(String token){
-        return tokenRepo.updateConfirmedAt(token, LocalDateTime.now());
+    public String setConfirmedAt(String token){
+        Optional<RegistrationToken> foundToken = tokenRepo.findById(UUID.fromString(token));
+        foundToken.ifPresent(registrationToken -> registrationToken.setConfirmedAt(LocalDateTime.now()));
+        return "User Confirmed";
     }
 
-    public RegistrationToken getToken(UUID token) {
-        return tokenRepo.getReferenceById(token);
+    public Optional<RegistrationToken> getToken(UUID token) {
+        return tokenRepo.findById(token);
+    }
+
+    public RegistrationToken createToken(User user) {
+        RegistrationToken newToken = new RegistrationToken();
+        newToken.setUser(user);
+        tokenRepo.save(newToken);
+        return newToken;
     }
 }

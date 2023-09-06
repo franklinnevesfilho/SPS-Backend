@@ -1,7 +1,7 @@
 
 package com.groupfour.snb.repositories;
 
-import com.groupfour.snb.models.listing.Listing;
+import com.groupfour.snb.models.Listing;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 

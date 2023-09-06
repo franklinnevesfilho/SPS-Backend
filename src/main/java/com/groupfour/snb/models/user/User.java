@@ -1,8 +1,10 @@
 package com.groupfour.snb.models.user;
+import com.groupfour.snb.models.Listing;
 import jakarta.annotation.Nullable;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.List;
 import java.util.UUID;
 
 
@@ -11,7 +13,7 @@ import java.util.UUID;
 @RequiredArgsConstructor
 @Data
 @Entity
-@Table(name="user_table")
+@Table(name="USERS")
 public class User {
 
     @Id
@@ -20,16 +22,25 @@ public class User {
     private UUID userId;
 
     @NonNull
+    @Column(name = "user_first-name")
     private String firstName;
     @NonNull
+    @Column(name = "user_last-name")
     private String lastName;
     @NonNull
+    @Column(name = "user_email")
     private String email;
     @Nullable
+    @Column(name = "user_password")
     private String password;
+    @OneToMany
+    private List<Listing> listings;
     @Enumerated(EnumType.STRING)
+    @Column(name = "user_role")
     private UserRole role;
-    private boolean activated;
+    @NonNull
+    @Column(name = "user_is-activated")
+    private boolean activated = false;
 
     public User(){
         role = UserRole.BUYER;

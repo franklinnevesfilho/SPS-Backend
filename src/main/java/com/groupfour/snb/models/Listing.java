@@ -1,5 +1,6 @@
-package com.groupfour.snb.models.listing;
+package com.groupfour.snb.models;
 
+import com.groupfour.snb.models.user.User;
 import jakarta.annotation.Nullable;
 import jakarta.persistence.*;
 import lombok.*;
@@ -7,7 +8,6 @@ import lombok.*;
 import java.time.LocalDate;
 import java.util.UUID;
 
-@NoArgsConstructor
 @AllArgsConstructor
 @RequiredArgsConstructor
 @Data
@@ -29,8 +29,12 @@ public class Listing {
     private LocalDate datePosted;
     @Nullable
     private LocalDate datePurchased;
+    @ManyToOne
+    @JoinColumn(name="user_id")
+    private User user;
 
-//    Is type int as a placeholder since this will be stored in database
-//    private int image;
+    public Listing(){
+        datePosted = LocalDate.now();
+    }
 }
 

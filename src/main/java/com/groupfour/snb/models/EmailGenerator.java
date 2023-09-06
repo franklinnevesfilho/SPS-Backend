@@ -1,4 +1,4 @@
-package com.groupfour.snb.models.email;
+package com.groupfour.snb.models;
 
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;

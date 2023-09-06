@@ -1,25 +1,28 @@
 package com.groupfour.snb.controllers;
 
-import com.groupfour.snb.models.user.UserRequest;
+import com.groupfour.snb.models.user.User;
+import com.groupfour.snb.security.registration.token.RegistrationToken;
 import com.groupfour.snb.services.RegistrationService;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.UUID;
 
+// The all args constructor is used so Spring injects the services
+@AllArgsConstructor
 @RestController
 @RequestMapping(path="/registration")
-@AllArgsConstructor
 public class RegistrationController {
-    private final RegistrationService registrationService;
+    private RegistrationService registrationService;
 
     @PostMapping
-    public String register(@RequestBody UserRequest request){
+    public String register(@RequestBody User request){
         return registrationService.register(request);
+
     }
 
     @GetMapping(path="/confirm")
-    public String confirm(@RequestParam("token") UUID token){
+    public RegistrationToken confirm(@RequestParam("token") UUID token){
         return registrationService.confirmToken(token);
     }
 }

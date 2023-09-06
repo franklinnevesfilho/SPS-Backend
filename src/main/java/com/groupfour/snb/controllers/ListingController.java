@@ -1,32 +1,25 @@
 package com.groupfour.snb.controllers;
 
-import com.groupfour.snb.models.listing.Listing;
+import com.groupfour.snb.models.Listing;
 import com.groupfour.snb.services.ListingService;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Optional;
 import java.util.UUID;
 
+// The all args constructor is used so Spring injects the services
+@AllArgsConstructor
 @RestController
 @RequestMapping("/listing")
 public class ListingController {
-    /*
+    private ListingService service;
 
- CRUD stands for:
-    C - create
-    R - read
-    U - update
-    D - delete
-
- */
-    @Autowired
-    ListingService service;
-
-    @PostMapping(path = "/saveAll")
-    public String postListings(){
-        service.addListings();
-        return "Saved all listings";
+    //A post request, inside the body will have a listing, and within the param the userId.
+    @PostMapping(path = "/add")
+    public String addListing(@RequestBody Listing listing, @RequestParam("user_id") UUID id){
+        service.addListing(listing,id);
+        return "successfully added";
     }
     @GetMapping(path = "/{listingId}")
     public Optional<Listing> getListingById(@PathVariable("listingId") UUID listingId){

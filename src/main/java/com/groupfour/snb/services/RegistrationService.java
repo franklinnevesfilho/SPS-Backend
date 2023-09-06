@@ -1,32 +1,33 @@
 package com.groupfour.snb.services;
 
-import com.groupfour.snb.models.user.UserRequest;
+import com.groupfour.snb.models.user.User;
 import com.groupfour.snb.security.registration.token.RegistrationToken;
 import com.groupfour.snb.security.registration.token.RegistrationTokenService;
 import lombok.AllArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.UUID;
 
-@Service
 @AllArgsConstructor
+@Service
 public class RegistrationService {
+    @Autowired
     private RegistrationTokenService tokenService;
+    @Autowired
     private EmailService emailService;
+    @Autowired
     private UserService userService;
 
 
-    public String register(UserRequest request) {
+    public String register(User request) {
         String result;
         if(isValidEmail(request.getEmail())){
-            result = "passed";
-            String token = UUID.randomUUID().toString();
-
-            String link = "http://localhost:8080/registration/confirm";
-
-
-
+            userService.addUser(request);
+            UUID token = tokenService.createToken(request).getTokenId();
+            emailService.sendVerificationEmail(token.toString(), request);
+            result = "token: " + token;
         }else{
             result = "failed";
         }
@@ -38,19 +39,21 @@ public class RegistrationService {
         return true;
     }
 
-    public String confirmToken(UUID token) {
-        RegistrationToken confirmedToken = tokenService.getToken(token);
+    public RegistrationToken confirmToken(UUID token) {
+        RegistrationToken confirmedToken = tokenService.getToken(token).get();
         if(confirmedToken.getConfirmedAt() != null){
             //TODO: handle registration exceptions
-            throw new IllegalStateException("already confirmed");
-
-        }else if(confirmedToken.getConfirmedAt().isBefore(LocalDateTime.now())){
+            System.out.println("token alreadyConfirmed");
+        }
+        // Set time confirmed
+        confirmedToken.setConfirmedAt(LocalDateTime.now());
+        // Checks if confirmation time is valid
+        if(confirmedToken.getConfirmedAt().isAfter(confirmedToken.getExpiresAt())){
             // If the expiration is before now... it has already expired
-             throw new IllegalStateException("Token expired");
+            System.out.println("Token expired");
         }else{
-            confirmedToken.setConfirmedAt(LocalDateTime.now());
             userService.activateUser(confirmedToken.getUser());
         }
-        return "confirmed";
+        return confirmedToken;
     }
 }
