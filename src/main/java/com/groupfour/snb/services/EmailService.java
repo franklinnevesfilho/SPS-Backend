@@ -20,7 +20,7 @@ public class EmailService {
                         " <p>This is a test email. Token: "+ token + "<p>\n"+
                         "<h3><a href=\""+ link +"\">Verify<a><h3>" +
                         "</body>";
-       new EmailGenerator(mailSender,"Email Verification", request.getEmail()).sendHttpEmail(body);
+       new EmailGenerator(mailSender,"Email Verification", request.getUsername()).sendHttpEmail(body);
 
     }
 }

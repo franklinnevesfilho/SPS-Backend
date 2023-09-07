@@ -4,26 +4,24 @@ import com.groupfour.snb.models.user.User;
 import com.groupfour.snb.security.registration.token.RegistrationToken;
 import com.groupfour.snb.security.registration.token.RegistrationTokenService;
 import lombok.AllArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.UUID;
 
 @AllArgsConstructor
 @Service
+@Transactional
 public class RegistrationService {
-    @Autowired
     private RegistrationTokenService tokenService;
-    @Autowired
     private EmailService emailService;
-    @Autowired
     private UserService userService;
 
 
     public String register(User request) {
         String result;
-        if(isValidEmail(request.getEmail())){
+        if(isValidEmail(request.getUsername())){
             userService.addUser(request);
             UUID token = tokenService.createToken(request).getTokenId();
             emailService.sendVerificationEmail(token.toString(), request);

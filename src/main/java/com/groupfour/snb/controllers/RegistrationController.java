@@ -13,6 +13,7 @@ import java.util.UUID;
 @RestController
 @RequestMapping(path="/registration")
 public class RegistrationController {
+    // This controller is used to handle the registration requests
     private RegistrationService registrationService;
 
     @PostMapping

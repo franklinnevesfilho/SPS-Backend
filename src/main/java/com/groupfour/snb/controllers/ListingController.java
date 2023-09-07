@@ -3,12 +3,14 @@ package com.groupfour.snb.controllers;
 import com.groupfour.snb.models.Listing;
 import com.groupfour.snb.services.ListingService;
 import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Optional;
 import java.util.UUID;
 
 // The all args constructor is used so Spring injects the services
+@NoArgsConstructor
 @AllArgsConstructor
 @RestController
 @RequestMapping("/listing")

@@ -1,48 +1,80 @@
 package com.groupfour.snb.models.user;
 import com.groupfour.snb.models.Listing;
-import jakarta.annotation.Nullable;
+import com.groupfour.snb.models.Role;
 import jakarta.persistence.*;
 import lombok.*;
-
-import java.util.List;
-import java.util.UUID;
+import org.springframework.security.core.userdetails.UserDetails;
+import java.util.*;
 
 
 // Using lombok to generate constructors
+
+@NoArgsConstructor
 @AllArgsConstructor
-@RequiredArgsConstructor
 @Data
 @Entity
-@Table(name="USERS")
-public class User {
-
+@Table(name="users")
+public class User implements UserDetails {
     @Id
     @Column(name="user_id")
     @GeneratedValue(strategy = GenerationType.AUTO)
     private UUID userId;
 
-    @NonNull
-    @Column(name = "user_first-name")
+    @Column(name="user_first-name")
     private String firstName;
-    @NonNull
-    @Column(name = "user_last-name")
+
+    @Column(name="user_last-name")
     private String lastName;
-    @NonNull
-    @Column(name = "user_email")
+
+    @Column(
+            unique = true,
+            name = "user_email")
     private String email;
-    @Nullable
+
+    // This hides password
+    // @JsonIgnore
     @Column(name = "user_password")
     private String password;
+
     @OneToMany
     private List<Listing> listings;
-    @Enumerated(EnumType.STRING)
-    @Column(name = "user_role")
-    private UserRole role;
-    @NonNull
-    @Column(name = "user_is-activated")
-    private boolean activated = false;
 
-    public User(){
-        role = UserRole.BUYER;
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(
+            name = "user_role_junction",
+            joinColumns = {@JoinColumn(name = "user_id")},
+            inverseJoinColumns = {@JoinColumn(name = "role_id")}
+    )
+    private Set<Role> authorities = new HashSet<>();
+
+    public User(String username, String password, Set<Role> authorities) {
+        this.email = username;
+        this.password = password;
+        this.authorities = authorities;
+    }
+
+    @Override
+    public String getUsername() {
+        return this.email;
+    }
+
+    @Override
+    public boolean isAccountNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return true;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return true;
     }
 }
