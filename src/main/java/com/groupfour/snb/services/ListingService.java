@@ -2,19 +2,18 @@ package com.groupfour.snb.services;
 
 import com.groupfour.snb.models.Listing;
 import com.groupfour.snb.repositories.ListingRepository;
-import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
 import java.util.UUID;
 
-@NoArgsConstructor
-@AllArgsConstructor
+@RequiredArgsConstructor
 @Service
 public class ListingService {
-    private ListingRepository listingRepository;
-    private UserService userService;
+    private final ListingRepository listingRepository;
+    private final UserService userService;
 
     public Optional<Listing> getListingsById(UUID listingId) {
         return listingRepository.findById(listingId);
@@ -24,7 +23,8 @@ public class ListingService {
         return listingRepository.findAll();
     }
 
-    public void addListing(Listing listing, UUID id) {
+    public void addListing(Listing listing) {
+
         listingRepository.save(listing);
     }
 }

@@ -1,7 +1,7 @@
 package com.groupfour.snb.services;
 
 import com.groupfour.snb.models.EmailGenerator;
-import com.groupfour.snb.models.user.User;
+import com.groupfour.snb.models.User;
 import lombok.AllArgsConstructor;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;

@@ -1,6 +1,5 @@
-package com.groupfour.snb.models.user;
-import com.groupfour.snb.models.Listing;
-import com.groupfour.snb.models.Role;
+package com.groupfour.snb.models;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -36,8 +35,11 @@ public class User implements UserDetails {
     @Column(name = "user_password")
     private String password;
 
-    @OneToMany
-    private List<Listing> listings;
+    @OneToMany(
+            mappedBy = "user",
+            fetch = FetchType.EAGER,
+            cascade = CascadeType.ALL)
+    private Set<Listing> listings;
 
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(

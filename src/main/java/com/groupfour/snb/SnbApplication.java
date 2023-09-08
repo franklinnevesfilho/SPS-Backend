@@ -1,7 +1,9 @@
 package com.groupfour.snb;
 
+import com.groupfour.snb.models.Listing;
 import com.groupfour.snb.models.Role;
-import com.groupfour.snb.models.user.User;
+import com.groupfour.snb.models.User;
+import com.groupfour.snb.services.ListingService;
 import com.groupfour.snb.services.RoleService;
 import com.groupfour.snb.services.UserService;
 import org.springframework.boot.CommandLineRunner;
@@ -12,6 +14,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -28,9 +31,9 @@ public class SnbApplication {
     }
 
     @Bean
-    CommandLineRunner run(RoleService roleService, UserService userService, PasswordEncoder passwordEncoder){
+    CommandLineRunner run(RoleService roleService, UserService userService, ListingService listingService, PasswordEncoder passwordEncoder){
         return args ->{
-
+            // Only to be used when Database is in update mode
             //if(roleRepo.findByAuthority("ADMIN").isPresent()) return;
 
             Role adminRole = roleService.addRole(new Role("ADMIN"));
@@ -39,9 +42,11 @@ public class SnbApplication {
             Set<Role> roles = new HashSet<>();
             roles.add(adminRole);
 
-            userService.addUser(
-                    new User("admin",passwordEncoder.encode("password"),roles)
-                );
+            User user = new User("admin",passwordEncoder.encode("password"),roles);
+
+
+            userService.addUser(user);
+            listingService.addListing(new Listing("title","desc", LocalDate.now(),user));
         };
     }
 

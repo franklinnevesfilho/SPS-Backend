@@ -1,6 +1,6 @@
 package com.groupfour.snb.repositories;
 
-import com.groupfour.snb.models.user.User;
+import com.groupfour.snb.models.User;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 

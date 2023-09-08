@@ -1,6 +1,6 @@
 package com.groupfour.snb.services;
 
-import com.groupfour.snb.models.user.User;
+import com.groupfour.snb.models.User;
 import com.groupfour.snb.security.registration.token.RegistrationToken;
 import com.groupfour.snb.security.registration.token.RegistrationTokenService;
 import lombok.AllArgsConstructor;

@@ -20,7 +20,7 @@ public class ListingController {
     //A post request, inside the body will have a listing, and within the param the userId.
     @PostMapping(path = "/add")
     public String addListing(@RequestBody Listing listing, @RequestParam("user_id") UUID id){
-        service.addListing(listing,id);
+        service.addListing(listing);
         return "successfully added";
     }
     @GetMapping(path = "/{listingId}")

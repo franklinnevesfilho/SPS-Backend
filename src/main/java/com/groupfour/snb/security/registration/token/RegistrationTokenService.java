@@ -1,6 +1,6 @@
 package com.groupfour.snb.security.registration.token;
 
-import com.groupfour.snb.models.user.User;
+import com.groupfour.snb.models.User;
 import lombok.NoArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

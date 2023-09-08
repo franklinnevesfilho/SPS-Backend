@@ -1,11 +1,9 @@
 package com.groupfour.snb.security.registration.token;
 
-import com.groupfour.snb.models.user.User;
+import com.groupfour.snb.models.User;
 import jakarta.annotation.Nullable;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 import lombok.NonNull;
 
 import java.time.LocalDateTime;

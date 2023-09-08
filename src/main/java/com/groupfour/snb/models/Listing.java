@@ -1,7 +1,5 @@
 package com.groupfour.snb.models;
 
-import com.groupfour.snb.models.user.User;
-import jakarta.annotation.Nullable;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -23,14 +21,22 @@ public class Listing {
 
     @NonNull
     private String name;
+
     @NonNull
     private String description;
+
     @NonNull
     private LocalDate datePosted;
-    @Nullable
+
     private LocalDate datePurchased;
-    @ManyToOne
-    @JoinColumn(name="user_id")
+
+    @NonNull
+    @ManyToOne(
+            fetch = FetchType.LAZY,
+            optional = false)
+    @JoinColumn(
+            name = "user_id",
+            nullable = false)
     private User user;
 
     public Listing(){
