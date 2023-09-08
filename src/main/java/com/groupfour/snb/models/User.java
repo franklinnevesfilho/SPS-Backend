@@ -1,8 +1,8 @@
 package com.groupfour.snb.models;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.security.core.userdetails.UserDetails;
+
 import java.util.*;
 
 
@@ -35,11 +35,13 @@ public class User implements UserDetails {
     @Column(name = "user_password")
     private String password;
 
-    @OneToMany(
-            mappedBy = "user",
-            fetch = FetchType.EAGER,
-            cascade = CascadeType.ALL)
-    private Set<Listing> listings;
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(name = "posted_user_id", referencedColumnName = "user_id")
+    private Set<Listing> postedListings = new HashSet<>();
+
+    @OneToMany(cascade = CascadeType.ALL)
+    @JoinColumn(name = "purchased_user_id", referencedColumnName = "user_id")
+    private Set<Listing> purchasedListings = new HashSet<>();
 
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
@@ -49,8 +51,8 @@ public class User implements UserDetails {
     )
     private Set<Role> authorities = new HashSet<>();
 
-    public User(String username, String password, Set<Role> authorities) {
-        this.email = username;
+    public User(String email, String password, Set<Role> authorities) {
+        this.email = email;
         this.password = password;
         this.authorities = authorities;
     }
@@ -78,5 +80,13 @@ public class User implements UserDetails {
     @Override
     public boolean isEnabled() {
         return true;
+    }
+
+    public void postListing(Listing listing) {
+        this.postedListings.add(listing);
+    }
+
+    public void purchaseListing(Listing listing) {
+        this.purchasedListings.add(listing.purchased());
     }
 }

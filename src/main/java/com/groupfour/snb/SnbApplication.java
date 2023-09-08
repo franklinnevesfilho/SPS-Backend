@@ -14,7 +14,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -43,10 +42,9 @@ public class SnbApplication {
             roles.add(adminRole);
 
             User user = new User("admin",passwordEncoder.encode("password"),roles);
-
-
+            user.postListing(new Listing("Posted by user","description of posted item"));
+            user.purchaseListing(new Listing("purchased by user","description of purchased item"));
             userService.addUser(user);
-            listingService.addListing(new Listing("title","desc", LocalDate.now(),user));
         };
     }
 

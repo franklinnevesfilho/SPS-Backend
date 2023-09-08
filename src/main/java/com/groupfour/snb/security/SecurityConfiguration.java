@@ -1,4 +1,4 @@
-package com.groupfour.snb.configuration;
+package com.groupfour.snb.security;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -11,6 +11,14 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 
+/**
+ * <h1>Security Config</h1>
+ * This class consists of the spring beans needed throughout the application for security.
+ * <b>Such as:</b> passwordEncoder , authenticationManager, securityFilterChain
+ *
+ * @author Franklin Neves Filho
+ * @Last-Modified: 09/08/2023
+ */
 @Configuration
 public class SecurityConfiguration {
 
@@ -30,7 +38,10 @@ public class SecurityConfiguration {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception{
         return http
                 .csrf(csrf -> csrf.disable())
-                .authorizeHttpRequests(auth -> auth.anyRequest().authenticated())
+                .authorizeHttpRequests(auth -> {
+                    auth.requestMatchers("/auth/**").permitAll();
+                    auth.anyRequest().authenticated();
+                })
                 .httpBasic().and()
                 .build();
     }

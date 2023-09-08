@@ -3,20 +3,19 @@ package com.groupfour.snb.services;
 import com.groupfour.snb.models.Role;
 import com.groupfour.snb.models.User;
 import lombok.AllArgsConstructor;
-import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.HashSet;
 import java.util.Set;
 
-@RequiredArgsConstructor
+@AllArgsConstructor
 @Service
 public class AuthService {
 
-    private final PasswordEncoder passwordEncoder;
-    private final UserService userService;
-    private final RoleService roleService;
+    private PasswordEncoder passwordEncoder;
+    private UserService userService;
+    private RoleService roleService;
 
 
     public User registerUser(String email, String password){

@@ -2,15 +2,15 @@ package com.groupfour.snb.services;
 
 import com.groupfour.snb.models.EmailGenerator;
 import com.groupfour.snb.models.User;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-@AllArgsConstructor
 @Service
+@RequiredArgsConstructor
 public class EmailService {
-    private JavaMailSender mailSender;
+    private final JavaMailSender mailSender;
 
     public void sendVerificationEmail(String token, User request){
         String link =

@@ -1,13 +1,13 @@
 package com.groupfour.snb.services;
 import com.groupfour.snb.models.User;
 import com.groupfour.snb.repositories.UserRepository;
-import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
+import java.util.UUID;
 
 
 @RequiredArgsConstructor
@@ -23,7 +23,10 @@ public class UserService implements UserDetailsService {
         userRepository.save(user);
         return user;
     }
-    public void activateUser(User user) {}
+
+    public User getUserById(UUID id){
+        return userRepository.findById(id).orElseThrow();
+    }
 
     public Iterable<User> getAll() {
          return userRepository.findAll();

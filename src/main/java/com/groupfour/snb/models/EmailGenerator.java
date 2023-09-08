@@ -10,6 +10,14 @@ import org.springframework.scheduling.annotation.Async;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+/**
+ * <h1>Email Generator</h1>
+ * This class will be responsible for generating all types of emails.
+ * From forgot password request to activating the account via email.
+ *
+ * @author Franklin Neves Filho
+ * @Last-Modified: 09/08/2023
+ */
 @AllArgsConstructor
 public class EmailGenerator {
     private JavaMailSender mailSender;
