@@ -1,13 +1,9 @@
 package com.groupfour.snb.controllers;
 
-import com.groupfour.snb.models.RegistrationDTO;
-import com.groupfour.snb.models.User;
+import com.groupfour.snb.models.user.*;
 import com.groupfour.snb.services.AuthService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * <h1>Authentication Controller</h1>
@@ -23,8 +19,19 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 public class AuthController {
     private final AuthService authService;
+
+    @PostMapping("/login")
+    public UserLoginResponseDTO login(@RequestBody UserLoginDTO body){
+        return authService.loginUser(body.getEmail(), body.getPassword());
+    }
     @PostMapping("/register")
-    public User registerUSer(@RequestBody RegistrationDTO body){
-        return authService.registerUser(body.getEmail(), body.getPassword());
+    public UserRegistrationResponseDTO registerUSer(@RequestBody UserRegistrationDTO user){
+        return authService.registerUser(user);
+    }
+    @GetMapping("/confirm-account/")
+    public String confirmAccount(@RequestParam String token){
+        String result = "Please register again, session expired";
+
+        return result;
     }
 }

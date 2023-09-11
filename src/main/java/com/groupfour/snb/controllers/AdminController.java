@@ -1,11 +1,11 @@
 package com.groupfour.snb.controllers;
 
-import com.groupfour.snb.models.User;
+import com.groupfour.snb.models.listing.Listing;
+import com.groupfour.snb.models.user.User;
+import com.groupfour.snb.repositories.listing.ListingRepository;
 import com.groupfour.snb.services.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.UUID;
 
 /**
  * <h1>Admin Controller</h1>
@@ -23,14 +23,23 @@ import java.util.UUID;
 public class AdminController {
     // will have methods and capabilities of an admin in our application
     private final UserService userService;
+    private final ListingRepository listingRepository;
 
     @GetMapping("/")
     public Iterable<User> adminController(){
         return userService.getAll();
     }
-    @GetMapping("/getUser/")
-    public User getUserWithId(@RequestParam("user_id") UUID id){
-        return userService.getUserById(id);
+
+
+    @GetMapping("/getUser/{user_id}")
+    public User getUserWithId(@PathVariable("user_id") String id){
+        return userService.getById(id);
+    }
+
+    @GetMapping("/getListings")
+    public Iterable<Listing> getListings(@RequestParam("user_id") String id){
+        User user = userService.getById(id);
+        return user.getListings();
     }
 
 }

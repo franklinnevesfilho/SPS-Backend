@@ -1,5 +1,6 @@
 package com.groupfour.snb.security;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -11,6 +12,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 
+
 /**
  * <h1>Security Config</h1>
  * This class consists of the spring beans needed throughout the application for security.
@@ -19,8 +21,10 @@ import org.springframework.security.web.SecurityFilterChain;
  * @author Franklin Neves Filho
  * @Last-Modified: 09/08/2023
  */
+@RequiredArgsConstructor
 @Configuration
 public class SecurityConfiguration {
+
 
     @Bean
     public PasswordEncoder passwordEncoder(){
@@ -31,6 +35,7 @@ public class SecurityConfiguration {
     public AuthenticationManager authenticationManager(UserDetailsService userDetailsService){
         DaoAuthenticationProvider daoProvider = new DaoAuthenticationProvider();
         daoProvider.setUserDetailsService(userDetailsService);
+        daoProvider.setPasswordEncoder(passwordEncoder());
         return new ProviderManager(daoProvider);
     }
 
@@ -40,10 +45,10 @@ public class SecurityConfiguration {
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth -> {
                     auth.requestMatchers("/auth/**").permitAll();
+                    auth.requestMatchers("/admin/**").hasRole("ADMIN");
+                    auth.requestMatchers("/users/**").hasAnyRole("ADMIN","USER","BUYER","SELLER");
                     auth.anyRequest().authenticated();
                 })
-                .httpBasic().and()
                 .build();
     }
-
 }

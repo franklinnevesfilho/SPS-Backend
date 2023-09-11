@@ -1,7 +1,7 @@
 package com.groupfour.snb.services;
 
-import com.groupfour.snb.models.EmailGenerator;
-import com.groupfour.snb.models.User;
+import com.groupfour.snb.utils.EmailGeneratorUtil;
+import com.groupfour.snb.models.user.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
@@ -20,7 +20,7 @@ public class EmailService {
                         " <p>This is a test email. Token: "+ token + "<p>\n"+
                         "<h3><a href=\""+ link +"\">Verify<a><h3>" +
                         "</body>";
-       new EmailGenerator(mailSender,"Email Verification", request.getUsername()).sendHttpEmail(body);
+       new EmailGeneratorUtil(mailSender,"Email Verification", request.getUsername()).sendHttpEmail(body);
 
     }
 }

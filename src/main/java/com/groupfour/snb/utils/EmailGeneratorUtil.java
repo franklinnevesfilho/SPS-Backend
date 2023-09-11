@@ -1,4 +1,4 @@
-package com.groupfour.snb.models;
+package com.groupfour.snb.utils;
 
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
@@ -6,7 +6,6 @@ import lombok.AllArgsConstructor;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.scheduling.annotation.Async;
-
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -19,11 +18,11 @@ import java.util.logging.Logger;
  * @Last-Modified: 09/08/2023
  */
 @AllArgsConstructor
-public class EmailGenerator {
+public class EmailGeneratorUtil {
     private JavaMailSender mailSender;
     private final String emailSubject;
     private final String toEmail;
-    private final Logger mailLog = Logger.getLogger(EmailGenerator.class.getName());
+    private final Logger mailLog = Logger.getLogger(EmailGeneratorUtil.class.getName());
 
     public String getEmailSubject(){
         return this.emailSubject;
