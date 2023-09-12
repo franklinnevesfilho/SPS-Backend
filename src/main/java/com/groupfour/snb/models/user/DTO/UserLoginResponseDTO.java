@@ -1,6 +1,7 @@
-package com.groupfour.snb.models.user;
+package com.groupfour.snb.models.user.DTO;
 
 import com.groupfour.snb.models.tokens.SessionToken;
+import com.groupfour.snb.models.user.DTO.UserLoginDTO;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;

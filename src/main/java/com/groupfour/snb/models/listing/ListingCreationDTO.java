@@ -10,6 +10,6 @@ import lombok.NoArgsConstructor;
 @Builder
 @Data
 public class ListingCreationDTO {
-    private String Title;
+    private String title;
     private String description;
 }

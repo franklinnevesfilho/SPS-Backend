@@ -1,6 +1,10 @@
 package com.groupfour.snb.controllers;
 
-import com.groupfour.snb.models.user.*;
+import com.groupfour.snb.models.tokens.RegistrationToken;
+import com.groupfour.snb.models.user.DTO.UserLoginDTO;
+import com.groupfour.snb.models.user.DTO.UserLoginResponseDTO;
+import com.groupfour.snb.models.user.DTO.UserRegistrationDTO;
+import com.groupfour.snb.models.user.DTO.UserRegistrationResponseDTO;
 import com.groupfour.snb.services.AuthService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -28,10 +32,8 @@ public class AuthController {
     public UserRegistrationResponseDTO registerUSer(@RequestBody UserRegistrationDTO user){
         return authService.registerUser(user);
     }
-    @GetMapping("/confirm-account/")
-    public String confirmAccount(@RequestParam String token){
-        String result = "Please register again, session expired";
-
-        return result;
+    @GetMapping("/register/confirm-account")
+    public RegistrationToken confirmAccount(@RequestParam String token){
+        return authService.confirmAccount(token);
     }
 }

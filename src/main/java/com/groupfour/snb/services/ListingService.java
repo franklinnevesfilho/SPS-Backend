@@ -3,6 +3,7 @@ package com.groupfour.snb.services;
 import com.groupfour.snb.models.listing.Image;
 import com.groupfour.snb.models.listing.Listing;
 import com.groupfour.snb.models.listing.Message;
+import com.groupfour.snb.models.user.User;
 import com.groupfour.snb.repositories.listing.ImageRepository;
 import com.groupfour.snb.repositories.listing.ListingRepository;
 import com.groupfour.snb.repositories.listing.MessageRepository;
@@ -26,9 +27,11 @@ public class ListingService {
         });
         imageRepository.saveAll(images);
     }
-    public void addMessage(String listingId, Message message) {
-        Listing listing = listingRepository.findListingById(listingId);
-        message.setListing(listing);
-        messageRepository.save(message);
+    public void addMessage(User user, String listingId, String message) {
+        Listing listing = listingRepository.findById(listingId).orElseThrow( () -> new RuntimeException("Listing with id:"+ listingId +"not found"));
+        messageRepository.save(Message.builder().user(user).listing(listing).message(message).build());
+    }
+    public void purchaseListing(User user, String listingId){
+        listingRepository.findById(listingId).ifPresent(Listing::purchased);
     }
 }

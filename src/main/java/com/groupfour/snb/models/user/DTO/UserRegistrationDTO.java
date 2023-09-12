@@ -1,4 +1,4 @@
-package com.groupfour.snb.models.user;
+package com.groupfour.snb.models.user.DTO;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

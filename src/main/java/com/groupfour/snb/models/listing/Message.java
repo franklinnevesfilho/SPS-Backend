@@ -1,9 +1,14 @@
 package com.groupfour.snb.models.listing;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import com.groupfour.snb.models.user.User;
 import jakarta.persistence.*;
 import lombok.*;
 
+@JsonIdentityInfo(
+        generator = ObjectIdGenerators.PropertyGenerator.class,
+        property = "id")
 @NoArgsConstructor
 @AllArgsConstructor
 @RequiredArgsConstructor

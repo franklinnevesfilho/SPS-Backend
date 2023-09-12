@@ -20,19 +20,11 @@ import java.util.*;
 @Entity
 @Builder
 @Table(name="users")
-public class User implements UserDetails {
+public class User {
     @Id
     @Column(name="user_id")
     @GeneratedValue(strategy = GenerationType.UUID)
     private String id;
-
-    @ManyToMany(fetch = FetchType.EAGER)
-    @JoinTable(
-            name = "user_role_junction",
-            joinColumns = {@JoinColumn(name = "user_id")},
-            inverseJoinColumns = {@JoinColumn(name = "role_id")}
-    )
-    private Set<Role> authorities = new HashSet<>();
 
     @Column(name="user_first-name")
     private String firstName;
@@ -45,8 +37,8 @@ public class User implements UserDetails {
             name = "user_email")
     private String email;
 
-    //This hides password
     @Column(name = "user_password")
+    @JsonIgnore
     private String password;
 
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "user")
@@ -59,31 +51,14 @@ public class User implements UserDetails {
     @JsonIgnore
     private List<Message> messages = new LinkedList<>();
 
-    private boolean accountExpired = false;
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(
+            name = "user_role_junction",
+            joinColumns = {@JoinColumn(name = "user_id")},
+            inverseJoinColumns = {@JoinColumn(name = "role_id")}
+    )
+    private Set<Role> authorities = new HashSet<>();
+
     private boolean enabled = false;
-    @Override
-    public String getUsername() {
-        return this.email;
-    }
-
-    @Override
-    public boolean isAccountNonExpired() {
-        return !accountExpired;
-    }
-
-    @Override
-    public boolean isAccountNonLocked() {
-        return true;
-    }
-
-    @Override
-    public boolean isCredentialsNonExpired() {
-        return true;
-    }
-
-    @Override
-    public boolean isEnabled() {
-        return enabled;
-    }
 
 }

@@ -1,11 +1,17 @@
 package com.groupfour.snb.services;
 
 import com.groupfour.snb.models.*;
+import com.groupfour.snb.models.tokens.RegistrationToken;
 import com.groupfour.snb.models.tokens.SessionToken;
 import com.groupfour.snb.models.user.*;
-import com.groupfour.snb.services.tokens.RegistrationTokenService;
-import com.groupfour.snb.services.tokens.SessionTokenService;
+import com.groupfour.snb.models.user.DTO.UserLoginDTO;
+import com.groupfour.snb.models.user.DTO.UserLoginResponseDTO;
+import com.groupfour.snb.models.user.DTO.UserRegistrationDTO;
+import com.groupfour.snb.models.user.DTO.UserRegistrationResponseDTO;
+import com.groupfour.snb.utils.tokens.RegistrationTokenUtil;
+import com.groupfour.snb.utils.tokens.SessionTokenUtil;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -15,6 +21,7 @@ import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.Set;
 
+@Slf4j
 @RequiredArgsConstructor
 @Service
 public class AuthService {
@@ -23,8 +30,8 @@ public class AuthService {
     private final PasswordEncoder passwordEncoder;
     private final RoleService roleService;
     private final UserService userService;
-    private final RegistrationTokenService registrationService;
-    private final SessionTokenService sessionService;
+    private final RegistrationTokenUtil registrationService;
+    private final SessionTokenUtil sessionService;
 
     public UserRegistrationResponseDTO registerUser(UserRegistrationDTO userDTO){
 
@@ -50,12 +57,29 @@ public class AuthService {
 
     public UserLoginResponseDTO loginUser(String email, String password) {
         if(authManager.authenticate(new UsernamePasswordAuthenticationToken(email, password)).isAuthenticated()) {
-            SessionToken token = sessionService.createToken(userService.getByEmail(email));
+            User user = userService.getByEmail(email);
+            SessionToken token;
+            if(!sessionService.hasSession(user.getId())){
+                 token = sessionService.createToken(user);
+            }else if (sessionService.sessionHasExpired(user.getId())){
+                token = sessionService.createToken(user);
+            }else{
+                token = sessionService.currentSession(user.getId());
+            }
+
             return UserLoginResponseDTO.builder()
                     .user(UserLoginDTO.builder().email(email).password(password).build())
                     .sessionToken(token)
                     .build();
         }
-        else return UserLoginResponseDTO.builder().build();
+        else{
+            log.warn("user was not authenticated");
+            return UserLoginResponseDTO.builder().build();
+        }
+    }
+
+    public RegistrationToken confirmAccount(String token) {
+        registrationService.confirmToken(token);
+        return registrationService.getToken(token);
     }
 }

@@ -1,11 +1,18 @@
-package com.groupfour.snb.utils;
+package com.groupfour.snb.utils.email;
 
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
 import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.scheduling.annotation.Async;
+import org.springframework.stereotype.Component;
+
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -17,23 +24,17 @@ import java.util.logging.Logger;
  * @author Franklin Neves Filho
  * @Last-Modified: 09/08/2023
  */
+@Slf4j
 @AllArgsConstructor
+@Data
 public class EmailGeneratorUtil {
     private JavaMailSender mailSender;
     private final String emailSubject;
     private final String toEmail;
-    private final Logger mailLog = Logger.getLogger(EmailGeneratorUtil.class.getName());
-
-    public String getEmailSubject(){
-        return this.emailSubject;
-    }
-    public String getToEmail(){
-        return this.toEmail;
-    }
 
     @Async
-    public void sendHttpEmail(String body){
-        mailSender.send(generateHttpMessage(body));
+    public void sendHttpEmail(String http){
+        mailSender.send(generateHttpMessage(http));
     }
 
     private MimeMessage generateHttpMessage(String body) {
@@ -46,7 +47,7 @@ public class EmailGeneratorUtil {
             helper.setSubject(getEmailSubject());
         }
         catch (MessagingException e) {
-            mailLog.log(Level.WARNING, "Failed to generate email");
+            log.warn("Failed to generate email");
         }
         return message;
     }

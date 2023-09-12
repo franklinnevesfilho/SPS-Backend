@@ -1,32 +1,38 @@
 package com.groupfour.snb;
 
 import com.groupfour.snb.models.listing.Listing;
+import com.groupfour.snb.models.listing.ListingCreationDTO;
 import com.groupfour.snb.models.listing.Message;
 import com.groupfour.snb.models.Role;
 import com.groupfour.snb.models.user.User;
 import com.groupfour.snb.services.ListingService;
 import com.groupfour.snb.services.RoleService;
 import com.groupfour.snb.services.UserService;
+import lombok.extern.log4j.Log4j;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.Set;
 
+@Slf4j
 @SpringBootApplication
 @RestController
+@RequestMapping("/api")
 public class SnbApplication {
     public static void main(String[] args) {
         SpringApplication.run(SnbApplication.class, args);
     }
 
-    @GetMapping()
+    @GetMapping("/")
     public String mainMenu(){
         return "Welcome";
     }
@@ -37,28 +43,36 @@ public class SnbApplication {
             // Only to be used when Database is in update mode
             //if(roleRepo.findByAuthority("ADMIN").isPresent()) return;
             Role adminRole = roleService.addRole(Role.builder().authority("ADMIN").build());
+
             roleService.addRole(Role.builder().authority("USER").build());
-
-
             Set<Role> roles = new HashSet<>();
             roles.add(adminRole);
 
             User user = User.builder()
-                                .email("admin")
-                                .password(passwordEncoder.encode("password"))
-                                .authorities(roles)
-                                .build();
+                    .email("admin")
+                    .password(passwordEncoder.encode("password"))
+                    .enabled(true)
+                    .authorities(roles)
+                    .build();
+
+            User user1 = User.builder()
+                    .email("test")
+                    .password(passwordEncoder.encode("password"))
+                    .enabled(true)
+                    .authorities(roles)
+                    .build();
 
             userService.add(user);
+            userService.add(user1);
+            userService.addListing(user.getId(), ListingCreationDTO.builder().title("Listing Title").description("Description").build());
 
-            listingService.addListing(Listing.builder().user(user).title("Listing Title").datePosted(LocalDate.now()).description("Description").build());
-
-            Listing listing = Listing.builder().userSold(user).title("Listing bought").datePosted(LocalDate.now()).description("Description").build();
+            Listing listing = Listing.builder().user(user).title("Listing bought").datePosted(LocalDate.now()).description("Description").build();
             listingService.addListing(listing);
-            listingService.addMessage(listing.getId(), Message.builder().message("Test Message").build());
 
 
-
+            userService.buyListing(user1.getId(), listing.getId());
+            userService.postMessage(user1.getId(), listing.getId(), "This product is very good");
+            log.info("Finished building base users");
         };
     }
 

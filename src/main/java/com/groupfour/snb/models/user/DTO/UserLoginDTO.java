@@ -1,5 +1,6 @@
-package com.groupfour.snb.models.user;
+package com.groupfour.snb.models.user.DTO;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
