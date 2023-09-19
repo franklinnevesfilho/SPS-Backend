@@ -26,7 +26,7 @@ public class SessionToken {
 
     @Column(name = "created_at")
     @Builder.Default
-    private LocalDateTime createdAt = LocalDateTime.now();
+    private LocalDateTime expiresAt = LocalDateTime.now().plusMinutes(DEFAULT_EXPIRATION_INTERVAL);
 
 
     @OneToOne
@@ -35,11 +35,11 @@ public class SessionToken {
     private User user;
 
     public LocalDateTime getExpiresAt() {
-        return createdAt.plusMinutes(DEFAULT_EXPIRATION_INTERVAL);
+        return expiresAt;
     }
 
     public boolean hasExpired() {
-        return getExpiresAt().isBefore(LocalDateTime.now());
+        return expiresAt.isBefore(LocalDateTime.now());
     }
 }
 

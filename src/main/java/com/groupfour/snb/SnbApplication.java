@@ -2,22 +2,17 @@ package com.groupfour.snb;
 
 import com.groupfour.snb.models.listing.Listing;
 import com.groupfour.snb.models.listing.ListingCreationDTO;
-import com.groupfour.snb.models.listing.Message;
 import com.groupfour.snb.models.Role;
 import com.groupfour.snb.models.user.User;
 import com.groupfour.snb.services.ListingService;
 import com.groupfour.snb.services.RoleService;
 import com.groupfour.snb.services.UserService;
-import lombok.extern.log4j.Log4j;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
 
 import java.time.LocalDate;
 import java.util.HashSet;
@@ -25,23 +20,17 @@ import java.util.Set;
 
 @Slf4j
 @SpringBootApplication
-@RestController
-@RequestMapping("/api")
 public class SnbApplication {
     public static void main(String[] args) {
         SpringApplication.run(SnbApplication.class, args);
     }
 
-    @GetMapping("/")
-    public String mainMenu(){
-        return "Welcome";
-    }
 
     @Bean
     CommandLineRunner run(RoleService roleService, UserService userService, ListingService listingService, PasswordEncoder passwordEncoder){
         return args ->{
             // Only to be used when Database is in update mode
-            //if(roleRepo.findByAuthority("ADMIN").isPresent()) return;
+            //if(roleService.findAuthority("ADMIN").isPresent()) return;
             Role adminRole = roleService.addRole(Role.builder().authority("ADMIN").build());
 
             roleService.addRole(Role.builder().authority("USER").build());
@@ -49,14 +38,14 @@ public class SnbApplication {
             roles.add(adminRole);
 
             User user = User.builder()
-                    .email("admin")
+                    .email("@admin")
                     .password(passwordEncoder.encode("password"))
                     .enabled(true)
                     .authorities(roles)
                     .build();
 
             User user1 = User.builder()
-                    .email("test")
+                    .email("@test")
                     .password(passwordEncoder.encode("password"))
                     .enabled(true)
                     .authorities(roles)

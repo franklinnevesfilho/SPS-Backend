@@ -39,6 +39,10 @@ public class UserService implements UserDetailsService {
         return userRepository.findByEmail(email).orElseThrow(() -> new UsernameNotFoundException("Email: " + email +" not found"));
     }
 
+    public Listing getListing(String listingId){
+        return listingService.getListingWithId(listingId);
+    }
+
     public Listing addListing(String userId, ListingCreationDTO listing) {
         User user = userRepository.findById(userId).orElseThrow(() -> new UsernameNotFoundException("User with id: " + userId + " not found"));
         return listingService.addListing(Listing.builder().user(user).title(listing.getTitle()).description(listing.getDescription()).build());

@@ -7,12 +7,14 @@ import com.groupfour.snb.models.user.DTO.UserRegistrationDTO;
 import com.groupfour.snb.repositories.tokens.RegistrationTokenRepository;
 import com.groupfour.snb.utils.email.EmailUtil;
 import lombok.RequiredArgsConstructor;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;
 
 @RequiredArgsConstructor
 @Component
+@ComponentScan
 public class RegistrationTokenUtil {
     private final RegistrationTokenRepository tokenRepository;
     private final EmailUtil emailUtil;

@@ -5,6 +5,8 @@ import com.groupfour.snb.repositories.RoleRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @RequiredArgsConstructor
 @Service
 public class RoleService {
@@ -15,5 +17,9 @@ public class RoleService {
     }
     public Role getRoleByAuthority(String user) {
         return roleRepository.findByAuthority(user).orElseThrow();
+    }
+
+    public Optional<Role> findAuthority(String admin) {
+        return roleRepository.findByAuthority(admin);
     }
 }

@@ -4,6 +4,8 @@ import com.groupfour.snb.utils.tokens.RegistrationTokenUtil;
 import com.groupfour.snb.utils.tokens.SessionTokenUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.scheduling.annotation.EnableScheduling;
@@ -13,10 +15,11 @@ import java.util.concurrent.TimeUnit;
 
 @Slf4j
 @RequiredArgsConstructor
-@Configuration
 @EnableAsync
 @EnableScheduling
-public class BackgroundJobConfig {
+@Configuration
+@ComponentScan
+public class SNBConfig {
 
     public final SessionTokenUtil sessionTokenUtil;
     public final RegistrationTokenUtil registrationTokenUtil;

@@ -23,23 +23,26 @@ import org.springframework.web.bind.annotation.*;
 public class AdminController {
     // will have methods and capabilities of an admin in our application
     private final UserService userService;
-    private final ListingRepository listingRepository;
 
-    @GetMapping("/")
-    public Iterable<User> adminController(){
+    @GetMapping("/get-all-users")
+    public Iterable<User> getAllUsers(){
         return userService.getAll();
     }
 
 
-    @GetMapping("/getUser/{user_id}")
+    @GetMapping("/get-user/{user_id}")
     public User getUserWithId(@PathVariable("user_id") String id){
         return userService.getById(id);
     }
 
-    @GetMapping("/getListings")
-    public Iterable<Listing> getListings(@RequestParam("user_id") String id){
+    @GetMapping("/get-all-listing/{user_id}")
+    public Iterable<Listing> getListings(@PathVariable("user_id") String id){
         User user = userService.getById(id);
         return user.getListings();
+    }
+    @GetMapping("/get-all-listing/{user_id}-{listing_id}")
+    public Listing getListingWithId(@PathVariable("listing_id")String listingId){
+        return userService.getListing(listingId);
     }
 
 }

@@ -21,6 +21,10 @@ public class ListingService {
     public Listing addListing(Listing listing) {
         return listingRepository.save(listing);
     }
+
+    public Listing getListingWithId(String id){
+        return listingRepository.findById(id).orElseThrow(() -> new RuntimeException("Listing with id:"+ id +"not found"));
+    }
     public void addImages(String listingId , Set<Image> images){
         images.forEach(image -> {
             image.setListing(listingRepository.findById(listingId).orElseThrow());
@@ -28,7 +32,7 @@ public class ListingService {
         imageRepository.saveAll(images);
     }
     public void addMessage(User user, String listingId, String message) {
-        Listing listing = listingRepository.findById(listingId).orElseThrow( () -> new RuntimeException("Listing with id:"+ listingId +"not found"));
+        Listing listing = getListingWithId(listingId);
         messageRepository.save(Message.builder().user(user).listing(listing).message(message).build());
     }
     public void purchaseListing(User user, String listingId){
