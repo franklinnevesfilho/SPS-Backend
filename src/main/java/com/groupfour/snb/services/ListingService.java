@@ -1,38 +1,41 @@
 package com.groupfour.snb.services;
 
+import com.groupfour.snb.models.listing.Image;
 import com.groupfour.snb.models.listing.Listing;
-import com.groupfour.snb.repositories.ListingRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.groupfour.snb.models.listing.Message;
+import com.groupfour.snb.models.user.User;
+import com.groupfour.snb.repositories.listing.ImageRepository;
+import com.groupfour.snb.repositories.listing.ListingRepository;
+import com.groupfour.snb.repositories.listing.MessageRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDate;
-import java.util.Arrays;
-import java.util.Calendar;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.Set;
 
+@RequiredArgsConstructor
 @Service
 public class ListingService {
-
-    final private Listing[] listings ={
-            new Listing("Name", "Description", LocalDate.of(2023, 9,1)),
-            new Listing("Name1", "Description1", LocalDate.of(2023, Calendar.SEPTEMBER,2)),
-            new Listing("Name2", "Description2", LocalDate.of(2023, Calendar.SEPTEMBER,3)),
-            new Listing("Name3", "Description3", LocalDate.of(2023, Calendar.SEPTEMBER,4))
-    };
-
-    @Autowired
-    private ListingRepository listingRepository;
-
-    public void addListings() {
-        listingRepository.saveAll(Arrays.stream(listings).toList());
+    private final ListingRepository listingRepository;
+    private final ImageRepository imageRepository;
+    private final MessageRepository messageRepository;
+    public Listing addListing(Listing listing) {
+        return listingRepository.save(listing);
     }
 
-    public Optional<Listing> getListingsById(UUID listingId) {
-        return listingRepository.findById(listingId);
+    public Listing getListingWithId(String id){
+        return listingRepository.findById(id).orElseThrow(() -> new RuntimeException("Listing with id:"+ id +"not found"));
     }
-
-    public Iterable<Listing> getAllListings() {
-        return listingRepository.findAll();
+    public void addImages(String listingId , Set<Image> images){
+        images.forEach(image -> {
+            image.setListing(listingRepository.findById(listingId).orElseThrow());
+        });
+        imageRepository.saveAll(images);
+    }
+    public void addMessage(User user, String listingId, String message) {
+        Listing listing = getListingWithId(listingId);
+        messageRepository.save(Message.builder().user(user).listing(listing).message(message).build());
+    }
+    public void purchaseListing(User user, String listingId){
+        listingRepository.findById(listingId).ifPresent(Listing::purchased);
     }
 }

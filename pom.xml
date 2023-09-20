@@ -22,6 +22,11 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-security</artifactId>
+        </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-devtools</artifactId>
@@ -42,6 +47,10 @@
             <artifactId>spring-boot-starter-mail</artifactId>
         </dependency>
         <dependency>
+            <groupId>org.awaitility</groupId>
+            <artifactId>awaitility</artifactId>
+        </dependency>
+        <dependency>
             <groupId>com.mysql</groupId>
             <artifactId>mysql-connector-j</artifactId>
             <scope>runtime</scope>
@@ -59,6 +68,13 @@
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <configuration>
+                    <environmentVariables>
+                        <DB_USERNAME>${env.DB_USERNAME}</DB_USERNAME>
+                        <EMAIL_HOST>${env.EMAIL_HOST}</EMAIL_HOST>
+                        <EMAIL_PASSWORD>${env.EMAIL_PASSWORD}</EMAIL_PASSWORD>
+                        <EMAIL_PORT>${env.EMAIL_PORT}</EMAIL_PORT>
+                        <EMAIL_USERNAME>${env.EMAIL_USERNAME}</EMAIL_USERNAME>
+                    </environmentVariables>
                     <excludes>
                         <exclude>
                             <groupId>org.projectlombok</groupId>
