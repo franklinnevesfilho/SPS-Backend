@@ -15,7 +15,7 @@ import org.springframework.stereotype.Component;
 @Data
 @Component
 public class AuthProvider implements AuthenticationProvider {
-    private UserInfo userInfo;
+   // private UserInfo userInfo;
     private PasswordEncoder passwordEncoder;
 
     @Override

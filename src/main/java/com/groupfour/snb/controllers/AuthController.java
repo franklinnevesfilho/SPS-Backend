@@ -5,6 +5,7 @@ import com.groupfour.snb.models.user.DTO.UserRegistration;
 import com.groupfour.snb.services.AuthService;
 import com.groupfour.snb.utils.Response;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -20,8 +21,8 @@ import java.util.function.Function;
 @RequestMapping("/auth")
 public class AuthController extends MainController {
 
-    private final AuthService authService;
-
+    @Autowired
+    private AuthService authService;
     private final Function<UserLogin, Response> LOGIN_USER = (body) -> authService.loginUser(body);
     private final Function<UserRegistration, Response> REGISTER_USER = (body) -> authService.registerUser(body);
     private final Function<String, Response> CONFIRM_ACCOUNT = (body) -> authService.confirmAccount(body);
