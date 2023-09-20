@@ -1,16 +1,10 @@
 package com.groupfour.snb.controllers;
 
-import com.groupfour.snb.models.Validator;
-import com.groupfour.snb.models.tokens.RegistrationToken;
-import com.groupfour.snb.models.user.DTO.UserLoginDTO;
-import com.groupfour.snb.models.user.DTO.UserLoginResponseDTO;
-import com.groupfour.snb.models.user.DTO.UserRegistrationDTO;
-import com.groupfour.snb.models.user.DTO.UserRegistrationResponseDTO;
+import com.groupfour.snb.models.user.DTO.UserLogin;
+import com.groupfour.snb.models.user.DTO.UserRegistration;
 import com.groupfour.snb.services.AuthService;
 import com.groupfour.snb.utils.Response;
-import com.groupfour.snb.utils.ResponseFactory;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -18,33 +12,44 @@ import java.util.function.Function;
 
 /**
  * <h1>Authentication Controller</h1>
- * This controller will operate on the authentication process of our applicaiton.
- * The only thing that will be able to access the endpoints stated here, will be
- * the front end application using our api.
- *
+ * This controller will perform all the authentication processes
  * @author Franklin Neves Filho
- * @Last-Modified: 09/08/2023
  */
 @RestController
+@RequiredArgsConstructor
 @RequestMapping("/auth")
 public class AuthController extends MainController {
 
-    @Autowired
-    private AuthService authService;
+    private final AuthService authService;
 
-    private final Function<UserLoginDTO, Response> LOGIN_USER = (body) -> authService.loginUser(body);
+    private final Function<UserLogin, Response> LOGIN_USER = (body) -> authService.loginUser(body);
+    private final Function<UserRegistration, Response> REGISTER_USER = (body) -> authService.registerUser(body);
+    private final Function<String, Response> CONFIRM_ACCOUNT = (body) -> authService.confirmAccount(body);
 
-
+    /**
+     * @param body a UserLoginDTO
+     * @return ResponseEntity<Response> UserLoginResponse
+     */
     @PostMapping("/login")
-    public ResponseEntity<Response> login(@RequestBody UserLoginDTO body){
+    public ResponseEntity<Response> login(@RequestBody UserLogin body){
         return genericRequest(LOGIN_USER, body);
     }
+
+    /**
+     * @param body a UserRegistrationDTO
+     * @return ResponseEntity<Response> UserRegistrationResponse
+     */
     @PostMapping("/register")
-    public UserRegistrationResponseDTO registerUSer(@RequestBody UserRegistrationDTO user){
-        return authService.registerUser(user);
+    public ResponseEntity<Response> registerUser(@RequestBody UserRegistration body){
+        return genericRequest(REGISTER_USER, body);
     }
+
+    /**
+     * @param tokenId The registration TokenId
+     * @return ResponseEntity<Response>
+     */
     @GetMapping("/register/confirm-account")
-    public RegistrationToken confirmAccount(@RequestParam String token){
-        return authService.confirmAccount(token);
+    public ResponseEntity<Response> confirmAccount(@RequestParam String tokenId){
+        return genericGetByParameter(CONFIRM_ACCOUNT, tokenId);
     }
 }

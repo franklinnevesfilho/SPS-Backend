@@ -1,4 +1,4 @@
-package com.groupfour.snb.models;
+package com.groupfour.snb.models.interfaces;
 
 import java.util.List;
 

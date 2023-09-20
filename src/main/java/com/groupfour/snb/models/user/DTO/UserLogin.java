@@ -1,7 +1,6 @@
 package com.groupfour.snb.models.user.DTO;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.groupfour.snb.models.Validator;
+import com.groupfour.snb.models.interfaces.Validator;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -14,7 +13,7 @@ import java.util.List;
 @AllArgsConstructor
 @Builder
 @Data
-public class UserLoginDTO implements Validator {
+public class UserLogin implements Validator {
     private String email;
     private String password;
 
@@ -25,7 +24,7 @@ public class UserLoginDTO implements Validator {
             result.add("Invalid email");
         }
         if(password == null || password.contains(" ")){
-            result.add("Invalid password... password cannot contain spaces");
+            result.add("Invalid password... Make sure password does not contain spaces");
         }
         return result;
     }

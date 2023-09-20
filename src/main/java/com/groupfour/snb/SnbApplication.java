@@ -1,7 +1,7 @@
 package com.groupfour.snb;
 
 import com.groupfour.snb.models.listing.Listing;
-import com.groupfour.snb.models.listing.ListingCreationDTO;
+import com.groupfour.snb.models.listing.CreateListing;
 import com.groupfour.snb.models.Role;
 import com.groupfour.snb.models.user.User;
 import com.groupfour.snb.services.ListingService;
@@ -53,7 +53,7 @@ public class SnbApplication {
 
             userService.add(user);
             userService.add(user1);
-            userService.addListing(user.getId(), ListingCreationDTO.builder().title("Listing Title").description("Description").build());
+            userService.addListing(user.getId(), CreateListing.builder().title("Listing Title").description("Description").build());
 
             Listing listing = Listing.builder().user(user).title("Listing bought").datePosted(LocalDate.now()).description("Description").build();
             listingService.addListing(listing);

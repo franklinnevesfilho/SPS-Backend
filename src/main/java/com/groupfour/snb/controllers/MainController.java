@@ -1,7 +1,6 @@
 package com.groupfour.snb.controllers;
 
-import com.groupfour.snb.models.Validator;
-import com.groupfour.snb.models.user.DTO.UserLoginDTO;
+import com.groupfour.snb.models.interfaces.Validator;
 import com.groupfour.snb.utils.Response;
 import com.groupfour.snb.utils.ResponseFactory;
 import org.springframework.beans.factory.annotation.Autowired;

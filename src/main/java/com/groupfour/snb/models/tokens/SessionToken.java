@@ -1,7 +1,6 @@
 package com.groupfour.snb.models.tokens;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.groupfour.snb.models.user.DTO.UserLoginDTO;
 import com.groupfour.snb.models.user.User;
 import jakarta.persistence.*;
 import lombok.*;

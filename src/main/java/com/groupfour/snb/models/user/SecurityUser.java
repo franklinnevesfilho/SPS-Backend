@@ -10,21 +10,18 @@ import java.util.Collection;
 @AllArgsConstructor
 @Builder
 public class SecurityUser implements UserDetails {
+    //ToDo: convert to UserInfo
 
     private User user;
 
-    @Override
-    public String getUsername() {
-        return user.getEmail();
-    }
     @Override
     public String getPassword() {
         return user.getPassword();
     }
 
     @Override
-    public Collection<? extends GrantedAuthority> getAuthorities() {
-        return user.getAuthorities();
+    public String getUsername() {
+        return user.getEmail();
     }
 
     @Override
@@ -40,6 +37,10 @@ public class SecurityUser implements UserDetails {
     @Override
     public boolean isCredentialsNonExpired() {
         return true;
+    }
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return user.getAuthorities();
     }
 
     @Override

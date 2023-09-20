@@ -1,18 +1,14 @@
 package com.groupfour.snb.services;
 
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.groupfour.snb.models.*;
-import com.groupfour.snb.models.tokens.RegistrationToken;
 import com.groupfour.snb.models.tokens.SessionToken;
 import com.groupfour.snb.models.user.*;
-import com.groupfour.snb.models.user.DTO.UserLoginDTO;
-import com.groupfour.snb.models.user.DTO.UserLoginResponseDTO;
-import com.groupfour.snb.models.user.DTO.UserRegistrationDTO;
-import com.groupfour.snb.models.user.DTO.UserRegistrationResponseDTO;
+import com.groupfour.snb.models.user.DTO.UserLogin;
+import com.groupfour.snb.models.user.DTO.UserLoginResponse;
+import com.groupfour.snb.models.user.DTO.UserRegistration;
 import com.groupfour.snb.utils.Response;
-import com.groupfour.snb.utils.tokens.RegistrationTokenUtil;
+import com.groupfour.snb.utils.tokens.RegistrationTokenService;
 import com.groupfour.snb.utils.tokens.SessionTokenUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -29,45 +25,50 @@ import java.util.Set;
 @Slf4j
 @RequiredArgsConstructor
 @Service
-public class AuthService {
-
+public class AuthService extends MainService{
     private final AuthenticationManager authManager;
     private final PasswordEncoder passwordEncoder;
     private final RoleService roleService;
     private final UserService userService;
-    private final RegistrationTokenUtil registrationService;
+    private final RegistrationTokenService registrationService;
     private final SessionTokenUtil sessionService;
 
-    public UserRegistrationResponseDTO registerUser(UserRegistrationDTO userDTO){
+    public Response registerUser(UserRegistration user){
+        mapper.registerModule(new JavaTimeModule());
+        List<String> errors = new LinkedList<>();
 
         Role userRole = roleService.getRoleByAuthority("USER");
         Set<Role> authorities = new HashSet<>();
         authorities.add(userRole);
 
-        User user = User.builder()
-                .firstName(userDTO.getFirstName())
-                .lastName(userDTO.getLastName())
-                .email(userDTO.getEmail())
-                .password(passwordEncoder.encode(userDTO.getPassword()))
+
+        //TODO: make sure email does not exist before adding user
+//        if(){
+//
+//        }
+        User gUser = User.builder()
+                .firstName(user.getFirstName())
+                .lastName(user.getLastName())
+                .email(user.getEmail())
+                .password(passwordEncoder.encode(user.getPassword()))
                 .authorities(authorities)
                 .listings(new LinkedList<>())
                 .purchasedListings(new LinkedList<>())
                 .build();
-        userService.add(user);
-        return UserRegistrationResponseDTO.builder()
-                .user(userDTO)
-                .registrationToken(registrationService.register(user))
+        userService.add(gUser);
+
+        return Response.builder()
+                .node(mapToJson(gUser))
                 .build();
     }
 
-    public Response loginUser(UserLoginDTO userLogin) {
+    public Response loginUser(UserLogin userLogin) {
+
         Response response;
-        UserLoginResponseDTO userResponse = UserLoginResponseDTO.builder()
-                .user(UserLoginDTO.builder().email(userLogin.getEmail()).password(userLogin.getPassword()).build())
+        UserLoginResponse userResponse = UserLoginResponse.builder()
+                .user(UserLogin.builder().email(userLogin.getEmail()).password(userLogin.getPassword()).build())
                 .build();
 
-        ObjectMapper mapper = new ObjectMapper();
-        mapper.registerModule(new JavaTimeModule());
 
         if(authManager.authenticate(new UsernamePasswordAuthenticationToken(userLogin.getEmail(), userLogin.getPassword())).isAuthenticated()) {
             User user = userService.getByEmail(userLogin.getEmail());
@@ -83,7 +84,7 @@ public class AuthService {
             userResponse.setSessionToken(token);
 
             response = Response.builder()
-                    .node(mapper.convertValue(userResponse, JsonNode.class))
+                    .node(mapToJson(userResponse))
                     .build();
         }
         else{
@@ -100,8 +101,7 @@ public class AuthService {
         return response;
     }
 
-    public RegistrationToken confirmAccount(String token) {
-        registrationService.confirmToken(token);
-        return registrationService.getToken(token);
+    public Response confirmAccount(String token) {
+        return registrationService.confirmToken(token);
     }
 }

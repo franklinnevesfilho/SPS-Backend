@@ -6,6 +6,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.LinkedList;
 import java.util.List;
 
 @Builder
@@ -14,5 +15,6 @@ import java.util.List;
 @Data
 public class Response {
     private JsonNode node;
-    private List<String> errors;
+    @Builder.Default
+    private List<String> errors = new LinkedList<>();
 }

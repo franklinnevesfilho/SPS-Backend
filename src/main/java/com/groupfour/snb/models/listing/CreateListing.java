@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Builder
 @Data
-public class ListingCreationDTO {
+public class CreateListing {
     private String title;
     private String description;
 }

@@ -1,9 +1,13 @@
 package com.groupfour.snb.models.user.DTO;
 
+import com.groupfour.snb.models.interfaces.Validator;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
+import java.util.LinkedList;
+import java.util.List;
 
 /**
  * <h1>Registration DTO</h1>
@@ -19,7 +23,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Builder
 @Data
-public class UserRegistrationDTO {
+public class UserRegistration implements Validator {
     private String firstName;
     private String lastName;
     private String email;
@@ -28,5 +32,20 @@ public class UserRegistrationDTO {
 
     public String toString(){
         return "Registration info: " + email + " " + password;
+    }
+
+    @Override
+    public List<String> validate() {
+        List<String> errors = new LinkedList<>();
+        if(firstName.contains(" ")){
+            errors.add("Invalid name, cannot contain spaces");
+        }
+        if(!email.contains("@")){
+            errors.add("Invalid Email");
+        }
+        if(password == null || password.contains(" ")){
+            errors.add("Invalid password... Make sure password does not contain spaces");
+        }
+        return errors;
     }
 }

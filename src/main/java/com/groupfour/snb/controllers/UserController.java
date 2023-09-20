@@ -1,7 +1,7 @@
 package com.groupfour.snb.controllers;
 
 import com.groupfour.snb.models.listing.Listing;
-import com.groupfour.snb.models.listing.ListingCreationDTO;
+import com.groupfour.snb.models.listing.CreateListing;
 import com.groupfour.snb.services.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -17,7 +17,7 @@ public class UserController {
         return "User access level";
     }
     @PostMapping
-    public Listing createListing(@PathVariable String userId, ListingCreationDTO listing){
+    public Listing createListing(@PathVariable String userId, CreateListing listing){
         return userService.addListing(userId, listing);
     }
 }

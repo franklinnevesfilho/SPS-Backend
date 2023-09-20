@@ -1,10 +1,9 @@
 package com.groupfour.snb.utils;
 
-import com.groupfour.snb.utils.tokens.RegistrationTokenUtil;
+import com.groupfour.snb.utils.tokens.RegistrationTokenService;
 import com.groupfour.snb.utils.tokens.SessionTokenUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.scheduling.annotation.EnableAsync;
@@ -22,7 +21,7 @@ import java.util.concurrent.TimeUnit;
 public class SNBConfig {
 
     public final SessionTokenUtil sessionTokenUtil;
-    public final RegistrationTokenUtil registrationTokenUtil;
+    public final RegistrationTokenService registrationTokenUtil;
 
 
     @Scheduled(fixedDelay = 1, timeUnit = TimeUnit.MINUTES)
