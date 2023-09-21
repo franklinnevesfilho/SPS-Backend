@@ -2,6 +2,8 @@ package com.groupfour.snb.models.listing;
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+import com.groupfour.snb.models.listing.attributes.Image;
+import com.groupfour.snb.models.listing.attributes.Message;
 import com.groupfour.snb.models.user.User;
 import jakarta.persistence.*;
 import lombok.*;
@@ -22,6 +24,7 @@ import java.util.List;
         generator = ObjectIdGenerators.PropertyGenerator.class,
         property = "id")
 @AllArgsConstructor
+@NoArgsConstructor
 @RequiredArgsConstructor
 @Builder
 @Data
@@ -56,14 +59,9 @@ public class Listing {
     private List<Image> images;
 
     // The date posted will be automatically created once the listing is created
+    @Builder.Default
     private LocalDate datePosted = LocalDate.now();
     private LocalDate datePurchased;
-
-    // Will update the date purchased and return the item
-
-    public Listing(){
-        this.datePosted = LocalDate.now();
-    }
 
     public Listing purchased() {
         this.datePurchased = LocalDate.now();

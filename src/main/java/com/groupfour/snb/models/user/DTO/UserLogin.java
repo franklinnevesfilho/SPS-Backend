@@ -5,7 +5,6 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
 import java.util.LinkedList;
 import java.util.List;
 
@@ -13,7 +12,7 @@ import java.util.List;
 @AllArgsConstructor
 @Builder
 @Data
-public class UserLogin implements Validator {
+public class UserLogin implements Validator{
     private String email;
     private String password;
 
@@ -28,4 +27,5 @@ public class UserLogin implements Validator {
         }
         return result;
     }
+
 }

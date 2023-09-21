@@ -1,6 +1,5 @@
 package com.groupfour.snb;
 
-import com.groupfour.snb.models.listing.Listing;
 import com.groupfour.snb.models.listing.CreateListing;
 import com.groupfour.snb.models.Role;
 import com.groupfour.snb.models.user.User;
@@ -14,7 +13,6 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
-import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -38,6 +36,8 @@ public class SnbApplication {
             roles.add(adminRole);
 
             User user = User.builder()
+                    .firstName("admin")
+                    .lastName("admin")
                     .email("@admin")
                     .password(passwordEncoder.encode("password"))
                     .enabled(true)
@@ -53,14 +53,12 @@ public class SnbApplication {
 
             userService.add(user);
             userService.add(user1);
-            userService.addListing(user.getId(), CreateListing.builder().title("Listing Title").description("Description").build());
-
-            Listing listing = Listing.builder().user(user).title("Listing bought").datePosted(LocalDate.now()).description("Description").build();
-            listingService.addListing(listing);
+            listingService.addListing(CreateListing.builder().title("Listing Title").description("Description").build(), user.getId());
+            listingService.addListing(CreateListing.builder().title("Listing").description("Description").build(), user1.getId());
 
 
-            userService.buyListing(user1.getId(), listing.getId());
-            userService.postMessage(user1.getId(), listing.getId(), "This product is very good");
+//            userService.buyListing(user1.getId(), listing.getId());
+//            userService.postMessage(user1.getId(), listing.getId(), "This product is very good");
             log.info("Finished building base users");
         };
     }

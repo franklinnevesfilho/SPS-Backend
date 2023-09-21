@@ -3,6 +3,7 @@ package com.groupfour.snb.repositories;
 import com.groupfour.snb.models.user.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
+
 import java.util.Optional;
 
 @Repository

@@ -1,8 +1,8 @@
 package com.groupfour.snb.controllers;
 
 import com.groupfour.snb.models.interfaces.Validator;
-import com.groupfour.snb.utils.Response;
-import com.groupfour.snb.utils.ResponseFactory;
+import com.groupfour.snb.utils.responses.Response;
+import com.groupfour.snb.utils.responses.ResponseFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 
@@ -18,7 +18,7 @@ public class MainController {
 
     /**
      *
-     * @param supply
+     * @param supply Supplier method
      * @return An instance of ResponseEntity<Response>
      */
     public ResponseEntity<Response> genericGetAll(Supplier<Response> supply){
@@ -34,8 +34,8 @@ public class MainController {
 
     /**
      *
-     * @param function
-     * @param parameter
+     * @param function a Function
+     * @param parameter the param for the function
      * @return An instance of ResponseEntity<Response>
      */
     public ResponseEntity<Response> genericGetByParameter(Function<String,Response> function, String parameter){
@@ -53,9 +53,8 @@ public class MainController {
         return responseEntity;
     }
 
-
     /**
-     * @param function
+     * @param function A function
      * @param validator The checks if all parameters are valid
      * @return An instance of ResponseEntity<Response>
      *

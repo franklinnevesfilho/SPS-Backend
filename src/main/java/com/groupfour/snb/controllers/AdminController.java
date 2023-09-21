@@ -1,10 +1,16 @@
 package com.groupfour.snb.controllers;
 
 import com.groupfour.snb.models.listing.Listing;
-import com.groupfour.snb.models.user.User;
+import com.groupfour.snb.services.ListingService;
 import com.groupfour.snb.services.UserService;
+import com.groupfour.snb.utils.responses.Response;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.function.Function;
+import java.util.function.Supplier;
 
 /**
  * <h1>Admin Controller</h1>
@@ -15,13 +21,19 @@ import org.springframework.web.bind.annotation.*;
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("/admin")
-public class AdminController {
+public class AdminController extends MainController{
     // will have methods and capabilities of an admin in our application
-    private final UserService userService;
+    @Autowired
+    private UserService userService;
+    @Autowired
+    private ListingService listingService;
+
+    final Supplier<Response> GET_ALL_USERS = () -> userService.getAll();
+    final Function<String, Response> GET_LISTING = (listingId) -> listingService.getListingWithId(listingId);
 
     @GetMapping("/get-all-users")
-    public Iterable<User> getAllUsers(){
-        return userService.getAll();
+    public ResponseEntity<Response> getAllUsers(){
+        return genericGetAll(GET_ALL_USERS);
     }
 
 
@@ -36,8 +48,12 @@ public class AdminController {
 //        return user.getListings();
 //    }
     @GetMapping("/get-all-listing/{user_id}-{listing_id}")
-    public Listing getListingWithId(@PathVariable("listing_id")String listingId){
-        return userService.getListing(listingId);
+    public ResponseEntity<Response> getListingWithId(@PathVariable("listing_id")String listingId){
+        return genericGetByParameter(GET_LISTING, listingId);
     }
 
+    @GetMapping("/all-listing")
+    public Iterable<Listing> getListings(){
+        return listingService.getAll();
+    }
 }

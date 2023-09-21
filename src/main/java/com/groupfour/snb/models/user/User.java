@@ -3,11 +3,10 @@ import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import com.groupfour.snb.models.listing.Listing;
-import com.groupfour.snb.models.listing.Message;
+import com.groupfour.snb.models.listing.attributes.Message;
 import com.groupfour.snb.models.Role;
 import jakarta.persistence.*;
 import lombok.*;
-import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.*;
 
@@ -60,5 +59,8 @@ public class User {
     private Set<Role> authorities = new HashSet<>();
 
     private boolean enabled = false;
+    public String toString(){
+        return "User:\n"+this.firstName+"\n"+this.lastName+"\n"+this.email+"\n"+this.password;
+    }
 
 }

@@ -3,7 +3,7 @@ package com.groupfour.snb.controllers;
 import com.groupfour.snb.models.user.DTO.UserLogin;
 import com.groupfour.snb.models.user.DTO.UserRegistration;
 import com.groupfour.snb.services.AuthService;
-import com.groupfour.snb.utils.Response;
+import com.groupfour.snb.utils.responses.Response;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;

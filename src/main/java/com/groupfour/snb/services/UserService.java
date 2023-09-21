@@ -1,16 +1,10 @@
 package com.groupfour.snb.services;
-import com.groupfour.snb.models.listing.Listing;
-import com.groupfour.snb.models.listing.CreateListing;
-import com.groupfour.snb.models.user.SecurityUser;
+
 import com.groupfour.snb.models.user.User;
 import com.groupfour.snb.repositories.UserRepository;
-import com.groupfour.snb.utils.Response;
+import com.groupfour.snb.utils.responses.Response;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
-
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
@@ -22,19 +16,8 @@ import java.util.Optional;
  */
 @RequiredArgsConstructor
 @Service
-public class UserService extends MainService implements UserDetailsService{
+public class UserService extends MainService  {
     private final UserRepository userRepository;
-    private final ListingService listingService;
-
-    /**
-     * @param username
-     * @return
-     * @throws UsernameNotFoundException
-     */
-    @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        return SecurityUser.builder().user(userRepository.findByEmail(username).orElseThrow()).build();
-    }
 
     public Response add(User user){
         userRepository.save(user);
@@ -55,34 +38,24 @@ public class UserService extends MainService implements UserDetailsService{
                 .build();
     }
 
-    public Iterable<User> getAll() {
-
-        return userRepository.findAll();
+    public Response getAll() {
+        return Response.builder()
+                .node(mapToJson(userRepository.findAll()))
+                .build();
     }
 
-    public User getByEmail(String email) {
+    public Response getByEmail(String email) {
+        List<String> errors = new LinkedList<>();
 
-        return userRepository.findByEmail(email).orElseThrow(() -> new UsernameNotFoundException("Email: " + email +" not found"));
+        Optional<User> user = userRepository.findByEmail(email);
+        if (user.isEmpty()) {
+            errors.add("User was not found");
+        }
+
+        return Response.builder()
+                .node(mapToJson(user))
+                .errors(errors)
+                .build();
     }
 
-    public Listing getListing(String listingId){
-
-        return listingService.getListingWithId(listingId);
-    }
-
-    public Listing addListing(String userId, CreateListing listing) {
-        User user = userRepository.findById(userId).orElseThrow(() -> new UsernameNotFoundException("User with id: " + userId + " not found"));
-        return listingService.addListing(Listing.builder().user(user).title(listing.getTitle()).description(listing.getDescription()).build());
-    }
-
-    public void buyListing(String userId, String listingId){
-    User user = userRepository.findById(userId).orElseThrow();
-    listingService.purchaseListing(user, listingId);
-    }
-
-    public void postMessage(String userId, String listingId, String message) {
-        userRepository.findById(userId).ifPresent(user ->{
-            listingService.addMessage(user, listingId, message);
-        });
-    }
 }
