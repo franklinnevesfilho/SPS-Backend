@@ -1,11 +1,10 @@
-package com.groupfour.snb.utils;
+package com.groupfour.snb.utils.responses;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
 import java.util.LinkedList;
 import java.util.List;
 

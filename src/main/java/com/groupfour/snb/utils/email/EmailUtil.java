@@ -18,7 +18,7 @@ public class EmailUtil extends EmailGeneratorUtil{
         String link = ServletUriComponentsBuilder
                         .fromCurrentRequest()
                         .path("/confirm-account")
-                        .queryParam("token",tokenId)
+                        .queryParam("tokenId",tokenId)
                         .toUriString();
 
         generateHttpMessage(generateVerificationEmail(link, user), user.getEmail(), "Email Verification");

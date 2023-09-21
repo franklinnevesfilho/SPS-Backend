@@ -9,4 +9,5 @@ import java.util.Optional;
 @Repository
 public interface RegistrationTokenRepository extends JpaRepository<RegistrationToken, String> {
     Optional<RegistrationToken> findByUserId(String userId);
+
 }

@@ -1,5 +1,6 @@
-package com.groupfour.snb.models.listing;
+package com.groupfour.snb.models.listing.attributes;
 
+import com.groupfour.snb.models.listing.Listing;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;

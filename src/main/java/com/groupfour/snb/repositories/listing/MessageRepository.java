@@ -1,7 +1,7 @@
 package com.groupfour.snb.repositories.listing;
 
 
-import com.groupfour.snb.models.listing.Message;
+import com.groupfour.snb.models.listing.attributes.Message;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

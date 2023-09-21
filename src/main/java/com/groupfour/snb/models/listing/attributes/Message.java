@@ -1,7 +1,8 @@
-package com.groupfour.snb.models.listing;
+package com.groupfour.snb.models.listing.attributes;
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+import com.groupfour.snb.models.listing.Listing;
 import com.groupfour.snb.models.user.User;
 import jakarta.persistence.*;
 import lombok.*;

@@ -4,7 +4,7 @@ import com.groupfour.snb.models.tokens.RegistrationToken;
 import com.groupfour.snb.models.user.User;
 import com.groupfour.snb.repositories.tokens.RegistrationTokenRepository;
 import com.groupfour.snb.services.MainService;
-import com.groupfour.snb.utils.Response;
+import com.groupfour.snb.utils.responses.Response;
 import com.groupfour.snb.utils.email.EmailUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.ComponentScan;
@@ -57,17 +57,16 @@ public class RegistrationTokenService extends MainService {
             token = foundToken.get();
         }else if(foundToken.isPresent() && foundToken.get().isExpired()){
             errors.add("Registration token has expired... Generated a new one");
-            token = RegistrationToken.builder()
+            token = tokenRepository.save(RegistrationToken.builder()
                     .user(user)
-                    .build();
+                    .build());
             // Resend email
             emailService.sendVerificationEmail(token.getId(),user);
         }else{
             // If token never existed
-            token = RegistrationToken.builder()
+            token = tokenRepository.save(RegistrationToken.builder()
                     .user(user)
-                    .build();
-
+                    .build());
             emailService.sendVerificationEmail(token.getId(),user);
         }
 
@@ -75,10 +74,6 @@ public class RegistrationTokenService extends MainService {
                 .node(mapToJson(token))
                 .errors(errors)
                 .build();
-    }
-
-    public RegistrationToken getToken(String token) {
-        return tokenRepository.findById(token).orElseThrow();
     }
 
     public Iterable<RegistrationToken> getAll() {
