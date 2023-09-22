@@ -27,13 +27,10 @@ public class UserRegistration implements Validator {
     private String firstName;
     private String lastName;
     private String email;
-
     private String password;
-
     public String toString(){
         return "Registration info: " + email + " " + password;
     }
-
     @Override
     public List<String> validate() {
         List<String> errors = new LinkedList<>();

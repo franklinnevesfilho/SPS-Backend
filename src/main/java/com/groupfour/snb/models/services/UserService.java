@@ -1,4 +1,4 @@
-package com.groupfour.snb.services;
+package com.groupfour.snb.models.services;
 
 import com.groupfour.snb.models.user.User;
 import com.groupfour.snb.repositories.UserRepository;
@@ -25,7 +25,6 @@ public class UserService extends MainService  {
                 .node(mapToJson(user))
                 .build();
     }
-
     public Response getById(String id){
         List<String> errors = new LinkedList<>();
         Optional<User> user = userRepository.findById(id);
@@ -37,7 +36,6 @@ public class UserService extends MainService  {
                 .errors(errors)
                 .build();
     }
-
     public Response getAll() {
         return Response.builder()
                 .node(mapToJson(userRepository.findAll()))

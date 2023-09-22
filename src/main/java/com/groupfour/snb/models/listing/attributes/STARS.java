@@ -1,4 +1,4 @@
-package com.groupfour.snb.models;
+package com.groupfour.snb.models.listing.attributes;
 
 public enum STARS {
     ONE(1),

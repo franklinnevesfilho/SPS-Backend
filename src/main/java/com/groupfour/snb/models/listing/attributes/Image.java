@@ -14,13 +14,11 @@ import lombok.NoArgsConstructor;
 @Entity
 @Table(name = "images")
 public class Image {
-
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private String id;
     private String name;
     private String type;
-
     @ManyToOne
     @JoinColumn(name = "listing_id")
     private Listing listing;

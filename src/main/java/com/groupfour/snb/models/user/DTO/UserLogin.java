@@ -15,7 +15,6 @@ import java.util.List;
 public class UserLogin implements Validator{
     private String email;
     private String password;
-
     @Override
     public List<String> validate() {
         List<String> result = new LinkedList<>();
@@ -27,5 +26,4 @@ public class UserLogin implements Validator{
         }
         return result;
     }
-
 }

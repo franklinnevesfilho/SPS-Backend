@@ -1,6 +1,6 @@
-package com.groupfour.snb.services;
+package com.groupfour.snb.models.services;
 
-import com.groupfour.snb.models.Role;
+import com.groupfour.snb.models.user.Role;
 import com.groupfour.snb.repositories.RoleRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -17,9 +17,5 @@ public class RoleService {
     }
     public Role getRoleByAuthority(String user) {
         return roleRepository.findByAuthority(user).orElseThrow();
-    }
-
-    public Optional<Role> findAuthority(String admin) {
-        return roleRepository.findByAuthority(admin);
     }
 }

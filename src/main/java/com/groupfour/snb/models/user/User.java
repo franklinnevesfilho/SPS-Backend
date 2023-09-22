@@ -4,7 +4,6 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import com.groupfour.snb.models.listing.Listing;
 import com.groupfour.snb.models.listing.attributes.Message;
-import com.groupfour.snb.models.Role;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -24,32 +23,24 @@ public class User {
     @Column(name="user_id")
     @GeneratedValue(strategy = GenerationType.UUID)
     private String id;
-
     @Column(name="user_first-name")
     private String firstName;
-
     @Column(name="user_last-name")
     private String lastName;
-
     @Column(
             unique = true,
             name = "user_email")
     private String email;
-
     @Column(name = "user_password")
     @JsonIgnore
     private String password;
-
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "user")
     private List<Listing> listings = new LinkedList<>();
-
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "userSold")
     private List<Listing> purchasedListings = new LinkedList<>();
-
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "user")
     @JsonIgnore
     private List<Message> messages = new LinkedList<>();
-
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
             name = "user_role_junction",
@@ -57,10 +48,8 @@ public class User {
             inverseJoinColumns = {@JoinColumn(name = "role_id")}
     )
     private Set<Role> authorities = new HashSet<>();
-
     private boolean enabled = false;
     public String toString(){
         return "User:\n"+this.firstName+"\n"+this.lastName+"\n"+this.email+"\n"+this.password;
     }
-
 }

@@ -1,4 +1,4 @@
-package com.groupfour.snb.models;
+package com.groupfour.snb.models.user;
 
 import jakarta.persistence.*;
 import lombok.*;
@@ -21,14 +21,12 @@ import org.springframework.security.core.GrantedAuthority;
 @Entity
 @Table(name = "roles")
 public class Role implements GrantedAuthority {
-
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "role_id")
     private Integer roleId;
     @NonNull
     private String authority;
-
     @Override
     public String getAuthority() {
         return authority;

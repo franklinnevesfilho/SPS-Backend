@@ -1,6 +1,6 @@
 package com.groupfour.snb.repositories;
 
-import com.groupfour.snb.models.Role;
+import com.groupfour.snb.models.user.Role;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

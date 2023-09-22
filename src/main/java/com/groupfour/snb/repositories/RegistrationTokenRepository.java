@@ -1,4 +1,4 @@
-package com.groupfour.snb.repositories.tokens;
+package com.groupfour.snb.repositories;
 
 import com.groupfour.snb.models.tokens.RegistrationToken;
 import org.springframework.data.jpa.repository.JpaRepository;
