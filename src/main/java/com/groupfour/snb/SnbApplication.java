@@ -1,11 +1,11 @@
 package com.groupfour.snb;
 
-import com.groupfour.snb.models.listing.CreateListing;
-import com.groupfour.snb.models.Role;
+import com.groupfour.snb.models.listing.DTO.CreateListing;
+import com.groupfour.snb.models.user.Role;
 import com.groupfour.snb.models.user.User;
-import com.groupfour.snb.services.ListingService;
-import com.groupfour.snb.services.RoleService;
-import com.groupfour.snb.services.UserService;
+import com.groupfour.snb.models.services.ListingService;
+import com.groupfour.snb.models.services.RoleService;
+import com.groupfour.snb.models.services.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;

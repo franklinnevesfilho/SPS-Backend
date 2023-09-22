@@ -1,4 +1,4 @@
-package com.groupfour.snb.models.listing;
+package com.groupfour.snb.models.listing.DTO;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

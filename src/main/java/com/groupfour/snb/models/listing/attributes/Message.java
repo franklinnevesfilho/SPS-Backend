@@ -21,15 +21,12 @@ public class Message {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private String id;
-
     @ManyToOne
     @JoinColumn(name = "listing_id")
     private Listing listing;
-
     @ManyToOne
     @JoinColumn(name = "user_id")
     private User user;
-
     @NonNull
     private String message;
     private String answer;

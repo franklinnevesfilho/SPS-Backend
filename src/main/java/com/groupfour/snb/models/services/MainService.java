@@ -1,4 +1,4 @@
-package com.groupfour.snb.services;
+package com.groupfour.snb.models.services;
 
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.JsonNode;

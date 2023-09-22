@@ -1,4 +1,4 @@
-package com.groupfour.snb.security;
+package com.groupfour.snb.utils.security;
 
 import com.groupfour.snb.models.interfaces.UserInfo;
 import com.groupfour.snb.models.interfaces.Validator;
@@ -19,7 +19,8 @@ import java.util.List;
 @Builder
 public class SecurityUser implements UserInfo, Authentication, Validator {
     private User user;
-    private boolean authenticated = true;
+    @Builder.Default
+    private boolean authenticated = false;
 
     @Override
     public String getPassword() {

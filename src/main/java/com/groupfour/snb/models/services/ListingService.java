@@ -1,6 +1,6 @@
-package com.groupfour.snb.services;
+package com.groupfour.snb.models.services;
 
-import com.groupfour.snb.models.listing.CreateListing;
+import com.groupfour.snb.models.listing.DTO.CreateListing;
 import com.groupfour.snb.models.listing.attributes.Image;
 import com.groupfour.snb.models.listing.Listing;
 import com.groupfour.snb.models.listing.attributes.Message;
@@ -16,7 +16,6 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
-import java.util.function.Function;
 
 @RequiredArgsConstructor
 @Service
@@ -24,26 +23,16 @@ public class ListingService extends MainService {
     private final ListingRepository listingRepository;
     private final ImageRepository imageRepository;
     private final MessageRepository messageRepository;
-
-    private final Function<Listing, Response> GET_LISTING_WITH_ID = (listing) -> Response.builder()
-            .node(mapToJson(listing))
-            .build();
-//    private BiFunction<Object, Object, Object> ADD_LISTING = (user, createListing) -> listingRepository.save(
-//            Listing.builder()
-//                    .user((User) user)
-//                    .title(createListing.getTitle())
-//                    .description(createListing.getDescription())
-//                    .build());
-
-    public Listing addListing(CreateListing listing, String userId) {
-            return listingRepository.save(Listing.builder()
-                    .user(User.builder().id(userId).build())
-                    .title(listing.getTitle())
-                    .description(listing.getDescription())
-                    .build());
-        //return genericGenerateIfParent(ADD_LISTING, user, listing, User.class);
+    public Response addListing(CreateListing listing, String userId) {
+        Listing listingCreated = listingRepository.save(Listing.builder()
+                .user(User.builder().id(userId).build())
+                .title(listing.getTitle())
+                .description(listing.getDescription())
+                .build());
+        return Response.builder()
+                .node(mapToJson(listingCreated))
+                .build();
     }
-
     public Response getListingWithId(String id){
         List<String> errors = new LinkedList<>();
         Optional<Listing> foundListing = listingRepository.findById(id);
@@ -57,9 +46,7 @@ public class ListingService extends MainService {
                 .build();
     }
     public void addImages(String listingId , Set<Image> images){
-        images.forEach(image -> {
-            image.setListing(listingRepository.findById(listingId).orElseThrow());
-        });
+        images.forEach(image -> image.setListing(listingRepository.findById(listingId).orElseThrow()));
         imageRepository.saveAll(images);
     }
     public Response addMessage(User user, String listingId, String message) {
@@ -79,16 +66,9 @@ public class ListingService extends MainService {
         }
         return Response.builder().node(mapToJson(message)).errors(errors).build();
     }
-
-    public Iterable<Listing> getAll(){
-        return listingRepository.findAll();
+    public Response getAllListingsWithUser(String userId){
+        return Response.builder()
+                .node(mapToJson( listingRepository.findListingsByUserId(userId)))
+                .build();
     }
-//    public Response purchaseListing(String userid, String listingId){
-//        Optional<Listing> listing = listingRepository.findListingById(listingId);
-//        List<String> errors = new LinkedList<>();
-//        if(listing.isPresent()){
-//
-//        }
-//        listingRepository.findById(listingId).ifPresent(Listing::purchased);
-//    }
 }

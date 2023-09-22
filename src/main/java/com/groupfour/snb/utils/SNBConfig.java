@@ -1,7 +1,6 @@
 package com.groupfour.snb.utils;
 
-import com.groupfour.snb.utils.tokens.RegistrationTokenService;
-import com.groupfour.snb.utils.tokens.SessionTokenUtil;
+import com.groupfour.snb.utils.security.tokens.RegistrationTokenService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.ComponentScan;
@@ -20,7 +19,6 @@ import java.util.concurrent.TimeUnit;
 @ComponentScan
 public class SNBConfig {
 
-    public final SessionTokenUtil sessionTokenUtil;
     public final RegistrationTokenService registrationTokenUtil;
 
 
@@ -31,13 +29,5 @@ public class SNBConfig {
         });
 
         log.info("Deleted Expired Registration Tokens");
-    }
-
-    @Scheduled(fixedDelay = 1, timeUnit = TimeUnit.MINUTES)
-    public void deleteExpiredSessions(){
-        sessionTokenUtil.getAll().forEach(token ->{
-            if(token.hasExpired()) sessionTokenUtil.delete(token);
-        });
-        log.info("Deleted Expired Sessions");
     }
 }

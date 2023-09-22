@@ -1,4 +1,4 @@
-package com.groupfour.snb.security;
+package com.groupfour.snb.utils.security;
 
 import com.groupfour.snb.models.user.User;
 import com.groupfour.snb.repositories.UserRepository;
@@ -10,35 +10,36 @@ import org.springframework.stereotype.Component;
 
 import java.util.Optional;
 
-@AllArgsConstructor
-@NoArgsConstructor
+@RequiredArgsConstructor
 @Builder
 @Data
 @Component
 public class AuthProvider implements AuthenticationProvider {
+    private final UserRepository userRepository;
 
-    private UserRepository userRepository;
-    private PasswordEncoder passwordEncoder;
+    private final PasswordEncoder passwordEncoder;
 
     @Override
     public Authentication authenticate(Authentication authentication) {
-        SecurityUser securityUser = SecurityUser.builder().build();
+        User user = User.builder().build();
         boolean result = false;
         // Is this authenticated obj an AuthUser
         String email = authentication.getName();
         String password = authentication.getCredentials().toString();
         //Find user in repo
-        Optional<User> user = userRepository.findByEmail(email);
+        Optional<User> foundUser = userRepository.findByEmail(email);
         //Does user exist?
-        if(user.isPresent()){
-            securityUser.setUser(user.get());
+        if(foundUser.isPresent()){
+            user = foundUser.get();
             // Do passwords match?
-            if(passwordEncoder.matches(password, user.get().getPassword())){
+            if(passwordEncoder.matches(password, user.getPassword())){
                 result = true;
             }
         }
-        securityUser.setAuthenticated(result);
-        return securityUser;
+        return SecurityUser.builder()
+                .user(user)
+                .authenticated(result)
+                .build();
     }
 
     @Override

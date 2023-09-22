@@ -1,5 +1,6 @@
 package com.groupfour.snb.models.listing;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import com.groupfour.snb.models.listing.attributes.Image;
@@ -10,7 +11,6 @@ import lombok.*;
 
 import java.time.LocalDate;
 import java.util.List;
-
 /**
  * <h1>Listing Model</h1>
  * This model is structured around listings that user will be able to sell on our applicaiton.
@@ -31,40 +31,30 @@ import java.util.List;
 @Entity
 @Table(name = "listings")
 public class Listing {
-
-    // Listing contains userId within the database.
-    // We will be using a many-to-one relationship to map them
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private String id;
-
     @NonNull
     private String title;
-
     @NonNull
     private String description;
-
     @ManyToOne
     @JoinColumn(name = "user_id")
+    @JsonBackReference
     private User user;
-
     @ManyToOne
     @JoinColumn(name = "user_sold_id")
     private User userSold;
-
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "listing")
     private List<Message> messages;
-
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "listing")
     private List<Image> images;
-
-    // The date posted will be automatically created once the listing is created
     @Builder.Default
     private LocalDate datePosted = LocalDate.now();
     private LocalDate datePurchased;
-
-    public Listing purchased() {
+    public Listing purchased(String userId) {
         this.datePurchased = LocalDate.now();
+        this.userSold = User.builder().id(userId).build();
         return this;
     }
 }

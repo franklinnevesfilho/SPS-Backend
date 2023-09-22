@@ -1,27 +1,35 @@
 package com.groupfour.snb.controllers;
 
-import com.groupfour.snb.models.listing.CreateListing;
-import com.groupfour.snb.models.listing.Listing;
-import com.groupfour.snb.services.ListingService;
-import com.groupfour.snb.services.UserService;
-import lombok.RequiredArgsConstructor;
+import com.groupfour.snb.models.listing.DTO.CreateListing;
+import com.groupfour.snb.models.services.ListingService;
+import com.groupfour.snb.utils.responses.Response;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-@RequiredArgsConstructor
+import java.util.function.BiFunction;
+import java.util.function.Function;
+
+/**
+ * <h1>UserController</h1>
+ * This controller will be our users access point, allowing them to perform actions
+ * To access this controller their userId must be passed within the path.
+ * @author Franklin Neves Filho
+ */
 @RestController
-@RequestMapping("/users/{userId}")
-public class UserController extends MainController{
-    private final UserService userService;
-    private final ListingService listingService;
-
-//    private BiFunction<String, Object, Response> CREATE_LISTING = (userId, listing) -> listingService.addListing((CreateListing) listing, userId);
-
-    @GetMapping()
-    public String userResponse(@PathVariable String userId){
-        return "User access level";
+@RequestMapping("/user/{userId}")
+public class UserController extends MainController {
+    private ListingService listingService;
+    private final BiFunction<String, Object, Response> CREATE_LISTING = (userId, listing) -> listingService.addListing((CreateListing) listing, userId);
+    private final Function<String, Response> GET_ALL_LISTINGS = (userId) -> listingService.getAllListingsWithUser(userId);
+    public UserController(ListingService listingService){
+        this.listingService = listingService;
     }
-    @PostMapping
-    public Listing createListing(@PathVariable String userId, CreateListing listing){
-        return listingService.addListing(listing, userId); //genericCreateChild(CREATE_LISTING ,userId ,listing);
+    @GetMapping()
+    public ResponseEntity<Response> getAllListings(@PathVariable String userId) {
+        return genericGetByParameter(GET_ALL_LISTINGS, userId);
+    }
+    @PostMapping("/create-listing")
+    public ResponseEntity<Response> createListing(@PathVariable String userId, CreateListing listing) {
+        return genericGetByTwoParameter(CREATE_LISTING, userId, listing);
     }
 }
