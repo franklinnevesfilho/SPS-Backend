@@ -24,7 +24,7 @@ public class AuthProvider implements AuthenticationProvider {
         User user = User.builder().build();
         boolean result = false;
         // Is this authenticated obj an AuthUser
-        String email = authentication.getName();
+        String email = authentication.getDetails().toString();
         String password = authentication.getCredentials().toString();
         //Find user in repo
         Optional<User> foundUser = userRepository.findByEmail(email);

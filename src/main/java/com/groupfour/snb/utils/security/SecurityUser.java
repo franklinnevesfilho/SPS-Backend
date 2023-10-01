@@ -9,6 +9,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
+
 import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
@@ -44,7 +45,7 @@ public class SecurityUser implements UserInfo, Authentication, Validator {
 
     @Override
     public Object getDetails() {
-        return user.getFirstName();
+        return user.getEmail();
     }
 
     @Override
@@ -69,6 +70,6 @@ public class SecurityUser implements UserInfo, Authentication, Validator {
 
     @Override
     public String getName() {
-        return user.getEmail();
+        return user.getId();
     }
 }
