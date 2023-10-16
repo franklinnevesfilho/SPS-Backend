@@ -1,11 +1,12 @@
-FROM eclipse-temurin:17-jdk-alpine
+FROM maven:latest AS build
+COPY . .
 
-VOLUME /tmp
+RUN mvn clean package -DskipTests
 
-ARG JAR_FILE
+FROM openjdk:18.0.2-jdk-slim
+
+COPY --from=build /target/SNB=0.0.1-SNAPSHOT.jar sps.jar
 
 EXPOSE 8080
 
-COPY target/SNB-0.0.1-SNAPSHOT.jar app.jar
-
-ENTRYPOINT ["java", "-jar", "app.jar"]
+ENTRYPOINT ["java", "-jar", "sps.jar"]
