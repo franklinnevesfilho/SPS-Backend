@@ -1,8 +1,6 @@
-package com.groupfour.snb.utils.security;
+package com.groupfour.snb.models.user;
 
 import com.groupfour.snb.models.interfaces.UserInfo;
-import com.groupfour.snb.models.interfaces.Validator;
-import com.groupfour.snb.models.user.User;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -11,14 +9,13 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 
 import java.util.Collection;
-import java.util.LinkedList;
-import java.util.List;
+
 
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
 @Builder
-public class SecurityUser implements UserInfo, Authentication, Validator {
+public class SecurityUser implements UserInfo, Authentication{
     private User user;
     @Builder.Default
     private boolean authenticated = false;
@@ -61,11 +58,6 @@ public class SecurityUser implements UserInfo, Authentication, Validator {
     @Override
     public void setAuthenticated(boolean isAuthenticated) throws IllegalArgumentException {
         authenticated = isAuthenticated;
-    }
-
-    @Override
-    public List<String> validate() {
-        return new LinkedList<>();
     }
 
     @Override

@@ -1,11 +1,9 @@
-package com.groupfour.snb.models.services;
+package com.groupfour.snb.services;
 
 import com.groupfour.snb.models.user.Role;
 import com.groupfour.snb.repositories.RoleRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-
-import java.util.Optional;
 
 @RequiredArgsConstructor
 @Service

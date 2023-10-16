@@ -1,4 +1,4 @@
-package com.groupfour.snb.models.services;
+package com.groupfour.snb.services;
 
 import com.groupfour.snb.models.user.*;
 import com.groupfour.snb.models.user.DTO.UserLogin;
@@ -6,9 +6,8 @@ import com.groupfour.snb.models.user.DTO.UserLoginResponse;
 import com.groupfour.snb.models.user.DTO.UserRegistration;
 import com.groupfour.snb.repositories.UserRepository;
 import com.groupfour.snb.utils.security.AuthProvider;
-import com.groupfour.snb.utils.security.SecurityUser;
+import com.groupfour.snb.models.user.SecurityUser;
 import com.groupfour.snb.utils.responses.Response;
-import com.groupfour.snb.utils.security.tokens.RegistrationTokenService;
 import com.groupfour.snb.utils.security.tokens.jwt.JwtTokenService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -25,6 +24,7 @@ import java.util.*;
 @RequiredArgsConstructor
 @Service
 public class AuthService extends MainService{
+
     private final AuthProvider loginManager;
     private final PasswordEncoder passwordEncoder;
     private final RoleService roleService;
@@ -63,7 +63,7 @@ public class AuthService extends MainService{
      * @return This will return a response either the logged-in user or a list of errors
      */
     public Response loginUser(UserLogin userLogin) {
-        UserLoginResponse userLResponse = UserLoginResponse.builder().build();
+        UserLoginResponse userLoginResponse = UserLoginResponse.builder().build();
         Optional<User> foundUser = userRepository.findByEmail(userLogin.getEmail());
         Response response = Response.builder().build();
         List<String> errors = new LinkedList<>();
@@ -78,8 +78,8 @@ public class AuthService extends MainService{
             if (loginManager.authenticate(secUser).isAuthenticated()) {
                 secUser = SecurityUser.builder().user(foundUser.get()).build();
                 String jwtToken = jwtTokenService.generateJwt(secUser);
-                userLResponse.setUser(foundUser.get());
-                userLResponse.setJwt(jwtToken);
+                userLoginResponse.setUser(foundUser.get());
+                userLoginResponse.setJwt(jwtToken);
             } else {
                 log.warn("user was not authenticated");
                 errors.add(LOGIN_ERROR);
@@ -88,7 +88,7 @@ public class AuthService extends MainService{
         else {
             errors.add(LOGIN_ERROR);
         }
-        response.setNode(mapToJson(userLResponse));
+        response.setNode(mapToJson(userLoginResponse));
         response.setErrors(errors);
         return response;
     }

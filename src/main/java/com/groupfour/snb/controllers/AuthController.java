@@ -3,7 +3,7 @@ package com.groupfour.snb.controllers;
 import com.groupfour.snb.models.interfaces.Validator;
 import com.groupfour.snb.models.user.DTO.UserLogin;
 import com.groupfour.snb.models.user.DTO.UserRegistration;
-import com.groupfour.snb.models.services.AuthService;
+import com.groupfour.snb.services.AuthService;
 import com.groupfour.snb.utils.responses.Response;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

@@ -1,5 +1,6 @@
 package com.groupfour.snb.utils.security;
 
+import com.groupfour.snb.models.user.SecurityUser;
 import com.groupfour.snb.models.user.User;
 import com.groupfour.snb.repositories.UserRepository;
 import lombok.*;
@@ -15,13 +16,14 @@ import java.util.Optional;
 @Data
 @Component
 public class AuthProvider implements AuthenticationProvider {
+
     private final UserRepository userRepository;
 
     private final PasswordEncoder passwordEncoder;
 
     @Override
     public Authentication authenticate(Authentication authentication) {
-        User user = User.builder().build();
+        User user;
         boolean result = false;
         // Is this authenticated obj an AuthUser
         String email = authentication.getDetails().toString();
@@ -37,7 +39,6 @@ public class AuthProvider implements AuthenticationProvider {
             }
         }
         return SecurityUser.builder()
-                .user(user)
                 .authenticated(result)
                 .build();
     }
