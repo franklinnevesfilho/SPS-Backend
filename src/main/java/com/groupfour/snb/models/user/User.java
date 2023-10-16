@@ -41,7 +41,7 @@ public class User {
     private String password;
 
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "user")
-    private List<Listing> listings = new LinkedList<>();
+    private List<Listing> postedListings = new LinkedList<>();
 
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
