@@ -3,7 +3,7 @@ package com.groupfour.snb.controllers;
 import com.groupfour.snb.models.interfaces.Validator;
 import com.groupfour.snb.models.user.DTO.UserLogin;
 import com.groupfour.snb.models.user.DTO.UserRegistration;
-import com.groupfour.snb.models.services.AuthService;
+import com.groupfour.snb.services.AuthService;
 import com.groupfour.snb.utils.responses.Response;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -17,6 +17,7 @@ import java.util.function.Function;
  */
 @RestController
 @RequestMapping("/auth")
+@CrossOrigin("*")
 public class AuthController extends MainController {
     private AuthService authService;
     private final Function<Validator, Response> LOGIN_USER = (body) -> authService.loginUser((UserLogin) body);

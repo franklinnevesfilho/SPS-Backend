@@ -1,6 +1,6 @@
 package com.groupfour.snb.utils;
 
-import com.groupfour.snb.utils.security.tokens.RegistrationTokenService;
+import com.groupfour.snb.services.RegistrationTokenService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.ComponentScan;

@@ -1,4 +1,4 @@
-package com.groupfour.snb.models.services;
+package com.groupfour.snb.services;
 
 import com.groupfour.snb.models.listing.DTO.CreateListing;
 import com.groupfour.snb.models.listing.attributes.Image;
@@ -26,8 +26,8 @@ public class ListingService extends MainService {
     public Response addListing(CreateListing listing, String userId) {
         Listing listingCreated = listingRepository.save(Listing.builder()
                 .user(User.builder().id(userId).build())
-                .title(listing.getTitle())
-                .description(listing.getDescription())
+                .title(listing.title())
+                .description(listing.description())
                 .build());
         return Response.builder()
                 .node(mapToJson(listingCreated))
@@ -69,6 +69,12 @@ public class ListingService extends MainService {
     public Response getAllListingsWithUser(String userId){
         return Response.builder()
                 .node(mapToJson( listingRepository.findListingsByUserId(userId)))
+                .build();
+    }
+
+    public Response getAllListings(){
+        return Response.builder()
+                .node(mapToJson(listingRepository.findAll()))
                 .build();
     }
 }

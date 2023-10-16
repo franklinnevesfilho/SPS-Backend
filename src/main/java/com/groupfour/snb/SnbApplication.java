@@ -3,9 +3,9 @@ package com.groupfour.snb;
 import com.groupfour.snb.models.listing.DTO.CreateListing;
 import com.groupfour.snb.models.user.Role;
 import com.groupfour.snb.models.user.User;
-import com.groupfour.snb.models.services.ListingService;
-import com.groupfour.snb.models.services.RoleService;
-import com.groupfour.snb.models.services.UserService;
+import com.groupfour.snb.services.ListingService;
+import com.groupfour.snb.services.RoleService;
+import com.groupfour.snb.services.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -53,12 +53,9 @@ public class SnbApplication {
 
             userService.add(user);
             userService.add(user1);
-            listingService.addListing(CreateListing.builder().title("Listing Title").description("Description").build(), user.getId());
-            listingService.addListing(CreateListing.builder().title("Listing").description("Description").build(), user1.getId());
+            listingService.addListing(new CreateListing("Listing Title","Description"), user.getId());
+            listingService.addListing(new CreateListing("Listing", "Description"), user1.getId());
 
-
-//            userService.buyListing(user1.getId(), listing.getId());
-//            userService.postMessage(user1.getId(), listing.getId(), "This product is very good");
             log.info("Finished building base users");
         };
     }

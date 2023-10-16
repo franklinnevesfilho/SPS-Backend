@@ -13,7 +13,7 @@ import org.springframework.security.core.GrantedAuthority;
  * @author Franklin Neves Filho
  * @Last-Modified: 09/08/2023
  */
-@NoArgsConstructor
+
 @AllArgsConstructor
 @RequiredArgsConstructor
 @Builder
@@ -23,9 +23,7 @@ import org.springframework.security.core.GrantedAuthority;
 public class Role implements GrantedAuthority {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "role_id")
     private Integer roleId;
-    @NonNull
     private String authority;
     @Override
     public String getAuthority() {

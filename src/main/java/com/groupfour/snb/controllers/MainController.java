@@ -25,7 +25,7 @@ public class MainController {
      * @param supply Supplier method
      * @return An instance of ResponseEntity<Response>
      */
-    public ResponseEntity<Response> genericGetAll(Supplier<Response> supply){
+    protected ResponseEntity<Response> genericGetAll(Supplier<Response> supply){
         ResponseEntity<Response> responseEntity;
         Response result = supply.get();
         if(result == null){
@@ -35,7 +35,7 @@ public class MainController {
         }
         return responseEntity;
     }
-    public ResponseEntity<Response> genericGetByTwoParameter(BiFunction<String, Object, Response> function, String parameter, Object object){
+    protected ResponseEntity<Response> genericGetByTwoParameter(BiFunction<String, Object, Response> function, String parameter, Object object){
         ResponseEntity<Response> responseEntity;
         if(parameter != null && !parameter.isEmpty() && object != null){
             Response response = function.apply(parameter,object);
@@ -55,7 +55,7 @@ public class MainController {
      * @param parameter the param for the function
      * @return An instance of ResponseEntity<Response>
      */
-    public ResponseEntity<Response> genericGetByParameter(Function<String,Response> function, String parameter){
+    protected ResponseEntity<Response> genericGetByParameter(Function<String,Response> function, String parameter){
         ResponseEntity<Response> responseEntity;
         if(parameter != null && !parameter.isEmpty()){
             Response response = function.apply(parameter);
@@ -76,7 +76,7 @@ public class MainController {
      *
      * The first check is to make sure all parameters are valid, then the second it to make sure nothing went wrong within the service.
      */
-    public ResponseEntity<Response> genericRequest(Function<Validator,Response> function, Validator validator){
+    protected ResponseEntity<Response> genericRequest(Function<Validator,Response> function, Validator validator){
         ResponseEntity<Response> responseEntity;
         List<String> errors = validator.validate();
         if(errors == null || errors.isEmpty()){

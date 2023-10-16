@@ -1,6 +1,5 @@
 package com.groupfour.snb.models.listing;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import com.groupfour.snb.models.listing.attributes.Image;
@@ -25,7 +24,6 @@ import java.util.List;
         property = "id")
 @AllArgsConstructor
 @NoArgsConstructor
-@RequiredArgsConstructor
 @Builder
 @Data
 @Entity
@@ -34,13 +32,10 @@ public class Listing {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private String id;
-    @NonNull
     private String title;
-    @NonNull
     private String description;
     @ManyToOne
     @JoinColumn(name = "user_id")
-    @JsonBackReference
     private User user;
     @ManyToOne
     @JoinColumn(name = "user_sold_id")

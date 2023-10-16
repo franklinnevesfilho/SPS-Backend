@@ -1,9 +1,8 @@
-package com.groupfour.snb.utils.security.tokens;
+package com.groupfour.snb.services;
 
 import com.groupfour.snb.models.tokens.RegistrationToken;
 import com.groupfour.snb.models.user.User;
 import com.groupfour.snb.repositories.RegistrationTokenRepository;
-import com.groupfour.snb.models.services.MainService;
 import com.groupfour.snb.utils.responses.Response;
 import com.groupfour.snb.utils.email.EmailUtil;
 import lombok.RequiredArgsConstructor;
