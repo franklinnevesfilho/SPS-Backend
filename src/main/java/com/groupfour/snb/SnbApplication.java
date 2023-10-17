@@ -25,39 +25,40 @@ public class SnbApplication {
 
 
     @Bean
-    CommandLineRunner run(RoleService roleService, UserService userService, ListingService listingService, PasswordEncoder passwordEncoder){
-        return args ->{
+    CommandLineRunner run(RoleService roleService, UserService userService, ListingService listingService, PasswordEncoder passwordEncoder) {
+        return args -> {
             // Only to be used when Database is in update mode
-            if(roleService.getRoleByAuthority("ADMIN").isPresent()) return;
-            Role adminRole = roleService.addRole(Role.builder().authority("ADMIN").build());
+            if (!roleService.isAuthorityPresent("ADMIN")) {
+                Role adminRole = roleService.addRole(Role.builder().authority("ADMIN").build());
 
-            roleService.addRole(Role.builder().authority("USER").build());
-            Set<Role> roles = new HashSet<>();
-            roles.add(adminRole);
+                roleService.addRole(Role.builder().authority("USER").build());
+                Set<Role> roles = new HashSet<>();
+                roles.add(adminRole);
 
-            User user = User.builder()
-                    .firstName("admin")
-                    .lastName("admin")
-                    .email("@admin")
-                    .password(passwordEncoder.encode("password"))
-                    .enabled(true)
-                    .authorities(roles)
-                    .build();
+                User user = User.builder()
+                        .firstName("admin")
+                        .lastName("admin")
+                        .email("@admin")
+                        .password(passwordEncoder.encode("password"))
+                        .enabled(true)
+                        .authorities(roles)
+                        .build();
 
-            User user1 = User.builder()
-                    .email("@test")
-                    .password(passwordEncoder.encode("password"))
-                    .enabled(true)
-                    .authorities(roles)
-                    .build();
+                User user1 = User.builder()
+                        .email("@test")
+                        .password(passwordEncoder.encode("password"))
+                        .enabled(true)
+                        .authorities(roles)
+                        .build();
 
-            userService.add(user);
-            userService.add(user1);
-            listingService.addListing(new CreateListing("Listing Title","Description"), user.getId());
-            listingService.addListing(new CreateListing("Listing", "Description"), user1.getId());
+                userService.add(user);
+                userService.add(user1);
+                listingService.addListing(new CreateListing("Listing Title", "Description"), user.getId());
+                listingService.addListing(new CreateListing("Listing", "Description"), user1.getId());
 
-            log.info("Finished building base users");
+                log.info("Finished building base users");
+            }
         };
-    }
 
+    }
 }
