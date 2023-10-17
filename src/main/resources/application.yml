@@ -1,5 +1,6 @@
-spring:
+server.address : 0.0.0.0
 
+spring:
 #           Database configurations
   datasource:
     url : ${DB_URL}
