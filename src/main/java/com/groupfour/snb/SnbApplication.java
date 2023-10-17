@@ -28,7 +28,7 @@ public class SnbApplication {
     CommandLineRunner run(RoleService roleService, UserService userService, ListingService listingService, PasswordEncoder passwordEncoder){
         return args ->{
             // Only to be used when Database is in update mode
-            if(roleService.findAuthority("ADMIN").isPresent()) return;
+            if(roleService.getRoleByAuthority("ADMIN").isPresent()) return;
             Role adminRole = roleService.addRole(Role.builder().authority("ADMIN").build());
 
             roleService.addRole(Role.builder().authority("USER").build());
