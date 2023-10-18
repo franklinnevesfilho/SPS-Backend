@@ -3,12 +3,10 @@ server.address : 0.0.0.0
 spring:
 #           Database configurations
   datasource:
-    url : ${DB_URL}
+    url : jdbc:mysql://${DB_URL:localhost}:${DB_PORT}/sps
     username : ${DB_USERNAME}
     password : ${DB_PASSWORD}
     driver-class-name : com.mysql.cj.jdbc.Driver
-    hikari:
-      max-lifetime: 50000
 
   jpa :
     hibernate :
