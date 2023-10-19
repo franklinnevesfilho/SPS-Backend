@@ -6,6 +6,7 @@ import com.groupfour.snb.repositories.RegistrationTokenRepository;
 import com.groupfour.snb.utils.responses.Response;
 import com.groupfour.snb.utils.email.EmailUtil;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.stereotype.Service;
 
@@ -15,13 +16,15 @@ import java.util.List;
 import java.util.Optional;
 
 @RequiredArgsConstructor
+@Slf4j
 @Service
 @ComponentScan
 public class RegistrationTokenService extends MainService {
     private final RegistrationTokenRepository tokenRepository;
+    private final UserService userService;
     private final EmailUtil emailService;
 
-    public Response confirmToken(String id){
+    public Response verifyRegistrationToken(String id){
         List<String> errors = new LinkedList<>();
         Optional<RegistrationToken> token = tokenRepository.findById(id);
 
@@ -30,7 +33,8 @@ public class RegistrationTokenService extends MainService {
 
             if(registeredToken.getConfirmedAt() == null && !registeredToken.isExpired()) {
                 registeredToken.setConfirmedAt(LocalDateTime.now());
-                registeredToken.getUser().setEnabled(true);
+                User user = registeredToken.getUser();
+                userService.enableUser(user);
                 tokenRepository.save(registeredToken);
             }else{
                 tokenRepository.deleteById(id);
@@ -46,7 +50,7 @@ public class RegistrationTokenService extends MainService {
                 .build();
     }
 
-    public Response register(User user) {
+    public Response registerUser(User user) {
         List<String> errors = new LinkedList<>();
 
         RegistrationToken token;

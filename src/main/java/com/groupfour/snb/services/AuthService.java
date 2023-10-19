@@ -2,7 +2,6 @@ package com.groupfour.snb.services;
 
 import com.groupfour.snb.models.user.*;
 import com.groupfour.snb.models.user.DTO.UserLogin;
-import com.groupfour.snb.models.user.DTO.UserLoginResponse;
 import com.groupfour.snb.models.user.DTO.UserRegistration;
 import com.groupfour.snb.repositories.UserRepository;
 import com.groupfour.snb.utils.security.AuthProvider;
@@ -43,7 +42,7 @@ public class AuthService extends MainService{
         //Todo: retrieve what role you want to assign the user
         Role userRole = roleService.getRoleByAuthority("USER");
         authorities.add(userRole);
-        return registrationService.register(
+        return registrationService.registerUser(
                 userRepository.save(
                         User.builder()
                                 .firstName(registerUser.getFirstName())
@@ -63,7 +62,7 @@ public class AuthService extends MainService{
      * @return This will return a response either the logged-in user or a list of errors
      */
     public Response loginUser(UserLogin userLogin) {
-        UserLoginResponse userLoginResponse = UserLoginResponse.builder().build();
+        String jwtToken = "";
         Optional<User> foundUser = userRepository.findByEmail(userLogin.getEmail());
         Response response = Response.builder().build();
         List<String> errors = new LinkedList<>();
@@ -77,9 +76,8 @@ public class AuthService extends MainService{
                      .build();
             if (loginManager.authenticate(secUser).isAuthenticated()) {
                 secUser = SecurityUser.builder().user(foundUser.get()).build();
-                String jwtToken = jwtTokenService.generateJwt(secUser);
-                userLoginResponse.setUser(foundUser.get());
-                userLoginResponse.setJwt(jwtToken);
+
+                jwtToken = jwtTokenService.generateJwt(secUser);
             } else {
                 log.warn("user was not authenticated");
                 errors.add(LOGIN_ERROR);
@@ -88,7 +86,7 @@ public class AuthService extends MainService{
         else {
             errors.add(LOGIN_ERROR);
         }
-        response.setNode(mapToJson(userLoginResponse));
+        response.setNode(mapToJson(jwtToken));
         response.setErrors(errors);
         return response;
     }
@@ -98,6 +96,6 @@ public class AuthService extends MainService{
      * @return a response with the userRegistrationResponse in the node
      */
     public Response confirmAccount(String token) {
-        return registrationService.confirmToken(token);
+        return registrationService.verifyRegistrationToken(token);
     }
 }

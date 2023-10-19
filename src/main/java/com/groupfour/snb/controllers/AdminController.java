@@ -16,6 +16,7 @@ import java.util.function.Supplier;
  */
 @RestController
 @RequestMapping("/admin")
+@CrossOrigin(origins = "http://localhost:5174")
 public class AdminController extends MainController{
     private UserService userService;
     private ListingService listingService;

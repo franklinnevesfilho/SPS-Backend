@@ -1,6 +1,5 @@
 package com.groupfour.snb;
 
-import com.groupfour.snb.models.listing.DTO.CreateListing;
 import com.groupfour.snb.models.user.Role;
 import com.groupfour.snb.models.user.User;
 import com.groupfour.snb.services.ListingService;
@@ -51,10 +50,10 @@ public class SnbApplication {
                         .authorities(roles)
                         .build();
 
-                userService.add(user);
-                userService.add(user1);
-                listingService.addListing(new CreateListing("Listing Title", "Description"), user.getId());
-                listingService.addListing(new CreateListing("Listing", "Description"), user1.getId());
+                userService.save(user);
+                userService.save(user1);
+               // listingService.addListing(new CreateListing("Listing Title", "Description", 10.00), user.getId());
+               // listingService.addListing(new CreateListing("Listing", "Description", 10.00), user1.getId());
 
                 log.info("Finished building base users");
             }

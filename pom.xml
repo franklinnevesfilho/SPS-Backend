@@ -58,6 +58,10 @@
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-thymeleaf</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-mail</artifactId>
         </dependency>
         <dependency>
@@ -82,13 +86,6 @@
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <configuration>
-                    <environmentVariables>
-                        <DB_USERNAME>${env.DB_USERNAME}</DB_USERNAME>
-                        <EMAIL_HOST>${env.EMAIL_HOST}</EMAIL_HOST>
-                        <EMAIL_PASSWORD>${env.EMAIL_PASSWORD}</EMAIL_PASSWORD>
-                        <EMAIL_PORT>${env.EMAIL_PORT}</EMAIL_PORT>
-                        <EMAIL_USERNAME>${env.EMAIL_USERNAME}</EMAIL_USERNAME>
-                    </environmentVariables>
                     <excludes>
                         <exclude>
                             <groupId>org.projectlombok</groupId>

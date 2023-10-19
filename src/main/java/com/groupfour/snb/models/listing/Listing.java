@@ -1,6 +1,7 @@
 package com.groupfour.snb.models.listing;
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import com.groupfour.snb.models.listing.attributes.Image;
 import com.groupfour.snb.models.listing.attributes.Message;
@@ -32,18 +33,27 @@ public class Listing {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private String id;
+
     private String title;
+
     private String description;
+
+    private double price;
+
     @ManyToOne
     @JoinColumn(name = "user_id")
+    @JsonIgnore
     private User user;
     @ManyToOne
     @JoinColumn(name = "user_sold_id")
     private User userSold;
+
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "listing")
     private List<Message> messages;
+
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "listing")
     private List<Image> images;
+
     @Builder.Default
     private LocalDate datePosted = LocalDate.now();
     private LocalDate datePurchased;

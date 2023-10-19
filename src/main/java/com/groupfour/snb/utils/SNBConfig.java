@@ -3,7 +3,6 @@ package com.groupfour.snb.utils;
 import com.groupfour.snb.services.RegistrationTokenService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.scheduling.annotation.EnableScheduling;
@@ -16,13 +15,11 @@ import java.util.concurrent.TimeUnit;
 @EnableAsync
 @EnableScheduling
 @Configuration
-@ComponentScan
 public class SNBConfig {
 
     public final RegistrationTokenService registrationTokenUtil;
 
-
-    @Scheduled(fixedDelay = 1, timeUnit = TimeUnit.MINUTES)
+    @Scheduled(fixedDelay = 2, timeUnit = TimeUnit.HOURS)
     public void deleteExpiredRegistrations(){
         registrationTokenUtil.getAll().forEach(token ->{
             if(token.isExpired()) registrationTokenUtil.delete(token);
