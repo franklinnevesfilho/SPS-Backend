@@ -19,7 +19,6 @@ import java.util.function.Function;
  */
 @RestController
 @RequestMapping("/user")
-@CrossOrigin(origins = "http://localhost:5174")
 public class UserController extends MainController {
     private ListingService listingService;
     private final BiFunction<String, Object, Response> CREATE_LISTING = (userId, listing) -> listingService.addListing((CreateListing) listing, userId);

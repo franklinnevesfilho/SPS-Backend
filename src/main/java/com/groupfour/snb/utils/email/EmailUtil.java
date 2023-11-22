@@ -19,7 +19,7 @@ public class EmailUtil{
         String link = ServletUriComponentsBuilder.newInstance()
                 .scheme("http")
                 .host("localhost")
-                .port("5174")
+                .port("5173")
                 .path("/confirm-account/" + tokenId)
                 .toUriString();
         emailGenerator.context.setVariable("url_link", link);

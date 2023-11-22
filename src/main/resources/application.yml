@@ -1,4 +1,10 @@
-server.address : 0.0.0.0
+#             paypal integration
+paypal :
+  mode: sandbox
+  client :
+    id : ${PAYPAL_ID}
+    secret : ${PAYPAL_SECRET}
+
 
 spring:
 #           Database configurations
