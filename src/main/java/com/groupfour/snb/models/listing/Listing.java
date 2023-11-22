@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import com.groupfour.snb.models.listing.attributes.Image;
 import com.groupfour.snb.models.listing.attributes.Message;
-import com.groupfour.snb.models.user.User;
+import com.groupfour.snb.models.user.VerifiedSeller;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -30,26 +30,36 @@ import java.util.List;
 @Table(name = "listings")
 public class Listing {
     @Id
+    @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.UUID)
     private String id;
+
+    @Column(name = "Title")
     private String title;
+
+    @Column(name = "Description")
     private String description;
+
+    @Column(name = "price")
+    private Double price;
+
     @ManyToOne
-    @JoinColumn(name = "user_id")
-    private User user;
-    @ManyToOne
-    @JoinColumn(name = "user_sold_id")
-    private User userSold;
+    @JoinColumn(name = "seller_id")
+    private VerifiedSeller seller;
+
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "listing")
     private List<Message> messages;
+
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "listing")
     private List<Image> images;
+
     @Builder.Default
     private LocalDate datePosted = LocalDate.now();
+
     private LocalDate datePurchased;
-    public Listing purchased(String userId) {
+
+    public Listing purchased() {
         this.datePurchased = LocalDate.now();
-        this.userSold = User.builder().id(userId).build();
         return this;
     }
 }

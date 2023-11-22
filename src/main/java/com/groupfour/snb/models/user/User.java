@@ -21,7 +21,7 @@ import java.util.*;
 public class User {
 
     @Id
-    @Column(name="user_id")
+    @Column(name="id")
     @GeneratedValue(strategy = GenerationType.UUID)
     private String id;
 
@@ -40,9 +40,6 @@ public class User {
     @JsonIgnore
     private String password;
 
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "user")
-    private List<Listing> postedListings = new LinkedList<>();
-
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
             name = "user_listing_cart",
@@ -59,12 +56,12 @@ public class User {
     )
     private List<Listing> wishlist = new LinkedList<>();
 
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "userSold")
-    private List<Listing> purchasedListings = new LinkedList<>();
-
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "user")
     @JsonIgnore
     private List<Message> messages = new LinkedList<>();
+
+    @OneToOne(mappedBy = "user")
+    private VerifiedSeller sellerVerification;
 
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(

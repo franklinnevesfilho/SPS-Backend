@@ -5,6 +5,7 @@ import com.groupfour.snb.models.listing.attributes.Image;
 import com.groupfour.snb.models.listing.Listing;
 import com.groupfour.snb.models.listing.attributes.Message;
 import com.groupfour.snb.models.user.User;
+import com.groupfour.snb.models.user.VerifiedSeller;
 import com.groupfour.snb.repositories.listing.ImageRepository;
 import com.groupfour.snb.repositories.listing.ListingRepository;
 import com.groupfour.snb.repositories.listing.MessageRepository;
@@ -23,9 +24,9 @@ public class ListingService extends MainService {
     private final ListingRepository listingRepository;
     private final ImageRepository imageRepository;
     private final MessageRepository messageRepository;
-    public Response addListing(CreateListing listing, String userId) {
+    public Response addListing(CreateListing listing, String sellerId) {
         Listing listingCreated = listingRepository.save(Listing.builder()
-                .user(User.builder().id(userId).build())
+                .seller(VerifiedSeller.builder().id(sellerId).build())
                 .title(listing.title())
                 .description(listing.description())
                 .build());
@@ -66,9 +67,9 @@ public class ListingService extends MainService {
         }
         return Response.builder().node(mapToJson(message)).errors(errors).build();
     }
-    public Response getAllListingsWithUser(String userId){
+    public Response getAllListingsWithUser(String sellerId){
         return Response.builder()
-                .node(mapToJson( listingRepository.findListingsByUserId(userId)))
+                .node(mapToJson( listingRepository.findListingsBySellerId(sellerId)))
                 .build();
     }
 
