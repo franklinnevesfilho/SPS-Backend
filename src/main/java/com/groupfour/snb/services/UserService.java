@@ -1,5 +1,6 @@
 package com.groupfour.snb.services;
 
+import com.groupfour.snb.models.user.Role;
 import com.groupfour.snb.models.user.User;
 import com.groupfour.snb.repositories.UserRepository;
 import com.groupfour.snb.utils.responses.Response;
@@ -18,6 +19,7 @@ import java.util.Optional;
 @Service
 public class UserService extends MainService  {
     private final UserRepository userRepository;
+    private final RoleService roleService;
 
     public Response add(User user){
         userRepository.save(user);
@@ -56,4 +58,21 @@ public class UserService extends MainService  {
                 .build();
     }
 
+    public Response sellerRequest(String userId, String licenseNum){
+        List<String> errors = new LinkedList<>();
+        Optional<User> optionalUser = userRepository.findById(userId);
+        User user = null;
+
+        if (optionalUser.isPresent()) {
+            user = optionalUser.get();
+            Role role = roleService.getRoleByAuthority("SELLER");
+            user.getAuthorities().add(role);
+            user.setLicense(licenseNum);
+            userRepository.save(user);
+        }else{
+            errors.add("User not found");
+        }
+
+        return Response.builder().node(mapToJson(user)).errors(errors).build();
+    }
 }

@@ -22,6 +22,5 @@ public class Image {
     @ManyToOne
     @JoinColumn(name = "listing_id")
     private Listing listing;
-
     private byte[] picByte;
 }

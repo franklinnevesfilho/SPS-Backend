@@ -27,10 +27,10 @@ public class SnbApplication {
     CommandLineRunner run(RoleService roleService, UserService userService, ListingService listingService, PasswordEncoder passwordEncoder) {
         return args -> {
             // Only to be used when Database is in update mode
-            if (!roleService.isAuthorityPresent("ADMIN")) {
+           if (!roleService.isAuthorityPresent("ADMIN")) {
                 Role adminRole = roleService.addRole(Role.builder().authority("ADMIN").build());
-
                 roleService.addRole(Role.builder().authority("USER").build());
+                roleService.addRole(Role.builder().authority("SELLER").build());
                 Set<Role> roles = new HashSet<>();
                 roles.add(adminRole);
 
@@ -52,11 +52,11 @@ public class SnbApplication {
 
                 userService.add(user);
                 userService.add(user1);
-//                listingService.addListing(new CreateListing("Listing Title", "Description"), user.getId());
-//                listingService.addListing(new CreateListing("Listing", "Description"), user1.getId());
+
+                userService.sellerRequest(user.getId(), "fwenijwoefvbw");
 
                 log.info("Finished building base users");
-            }
+           }
         };
 
     }

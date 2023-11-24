@@ -5,7 +5,6 @@ import com.groupfour.snb.models.listing.attributes.Image;
 import com.groupfour.snb.models.listing.Listing;
 import com.groupfour.snb.models.listing.attributes.Message;
 import com.groupfour.snb.models.user.User;
-import com.groupfour.snb.models.user.VerifiedSeller;
 import com.groupfour.snb.repositories.listing.ImageRepository;
 import com.groupfour.snb.repositories.listing.ListingRepository;
 import com.groupfour.snb.repositories.listing.MessageRepository;
@@ -24,9 +23,10 @@ public class ListingService extends MainService {
     private final ListingRepository listingRepository;
     private final ImageRepository imageRepository;
     private final MessageRepository messageRepository;
-    public Response addListing(CreateListing listing, String sellerId) {
+
+    public Response addListing(CreateListing listing, String userId) {
         Listing listingCreated = listingRepository.save(Listing.builder()
-                .seller(VerifiedSeller.builder().id(sellerId).build())
+                .seller(User.builder().id(userId).build())
                 .title(listing.title())
                 .description(listing.description())
                 .build());

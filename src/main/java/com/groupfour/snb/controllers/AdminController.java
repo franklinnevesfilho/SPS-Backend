@@ -11,7 +11,7 @@ import java.util.function.Supplier;
 
 /**
  * <h1>Admin Controller</h1>
- * This controller will only be accessed by the admin role
+ * This controller can only be accessed by the admin role
  * @author Franklin Neves Filho
  */
 @RestController
@@ -29,16 +29,26 @@ public class AdminController extends MainController{
         this.listingService = listingService;
     }
 
+    /**
+     * @param listingId the ID of the specific listing in question
+     * @return a Response containing all the information of that listing
+     */
     @GetMapping("/get-listing/{listing_id}")
     public ResponseEntity<Response> getListingWithId(@PathVariable("listing_id")String listingId){
         return genericGetByParameter(GET_LISTING, listingId);
     }
 
+    /**
+     * @return all available listings within our system
+     */
     @GetMapping("/all-listings")
     public ResponseEntity<Response> getAllListings(){
         return genericGetAll(GET_ALL_LISTINGS);
     }
 
+    /**
+     * @return a list of all users currently registered.
+     */
     @GetMapping("/all-users")
     public ResponseEntity<Response> getAllUsers(){
         return genericGetAll(GET_ALL_USERS);

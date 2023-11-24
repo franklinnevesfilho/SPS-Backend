@@ -20,8 +20,8 @@ import java.util.function.Supplier;
 public class MainController {
     @Autowired
     protected ResponseFactory factory;
+
     /**
-     *
      * @param supply Supplier method
      * @return An instance of ResponseEntity<Response>
      */
@@ -35,6 +35,13 @@ public class MainController {
         }
         return responseEntity;
     }
+
+    /**
+     * @param function a BiFunction of which the parameters are a string and an object
+     * @param parameter the first parameter for the function
+     * @param object the second parameter for the function
+     * @return an instance of ResponseEntity<Response>
+     */
     protected ResponseEntity<Response> genericGetByTwoParameter(BiFunction<String, Object, Response> function, String parameter, Object object){
         ResponseEntity<Response> responseEntity;
         if(parameter != null && !parameter.isEmpty() && object != null){

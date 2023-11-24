@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import com.groupfour.snb.models.listing.attributes.Image;
 import com.groupfour.snb.models.listing.attributes.Message;
-import com.groupfour.snb.models.user.VerifiedSeller;
+import com.groupfour.snb.models.user.User;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -45,7 +45,7 @@ public class Listing {
 
     @ManyToOne
     @JoinColumn(name = "seller_id")
-    private VerifiedSeller seller;
+    private User seller;
 
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "listing")
     private List<Message> messages;

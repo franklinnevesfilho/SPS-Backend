@@ -25,43 +25,41 @@ public class User {
     @GeneratedValue(strategy = GenerationType.UUID)
     private String id;
 
-    @Column(name="user_first-name")
+    @Column(name="first_name")
     private String firstName;
 
-    @Column(name="user_last-name")
+    @Column(name="last_name")
     private String lastName;
 
-    @Column(
-            unique = true,
-            name = "user_email")
+    @Column( unique = true,
+             name = "email")
     private String email;
 
-    @Column(name = "user_password")
+    @Column(name = "password")
     @JsonIgnore
     private String password;
 
+    private String license;
+
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
-            name = "user_listing_cart",
+            name = "seller_listings",
+            joinColumns = {@JoinColumn(name = "seller_id")},
+            inverseJoinColumns = {@JoinColumn(name = "listing_id")}
+    )
+    private List<Listing> postedListings = new LinkedList<>();
+
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(
+            name = "user_cart",
             joinColumns = {@JoinColumn(name = "user_id")},
             inverseJoinColumns = {@JoinColumn(name = "listing_id")}
     )
     private List<Listing> cart = new LinkedList<>();
 
-    @ManyToMany(fetch = FetchType.EAGER)
-    @JoinTable(
-            name = "user_listing_wishlist",
-            joinColumns = {@JoinColumn(name = "user_id")},
-            inverseJoinColumns = {@JoinColumn(name = "listing_id")}
-    )
-    private List<Listing> wishlist = new LinkedList<>();
-
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "user")
     @JsonIgnore
     private List<Message> messages = new LinkedList<>();
-
-    @OneToOne(mappedBy = "user")
-    private VerifiedSeller sellerVerification;
 
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
@@ -72,7 +70,4 @@ public class User {
     private Set<Role> authorities = new HashSet<>();
 
     private boolean enabled = false;
-    public String toString(){
-        return "User:\n"+this.firstName+"\n"+this.lastName+"\n"+this.email+"\n"+this.password;
-    }
 }
