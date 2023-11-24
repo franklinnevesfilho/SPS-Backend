@@ -21,7 +21,7 @@ public class UserService extends MainService  {
     private final UserRepository userRepository;
     private final RoleService roleService;
 
-    public Response add(User user){
+    public Response save(User user){
         userRepository.save(user);
         return Response.builder()
                 .node(mapToJson(user))
@@ -55,6 +55,13 @@ public class UserService extends MainService  {
         return Response.builder()
                 .node(mapToJson(user))
                 .errors(errors)
+                .build();
+    }
+    public Response enableUser(User user) {
+        user.setEnabled(true);
+        userRepository.save(user);
+        return Response.builder()
+                .node(mapToJson(user))
                 .build();
     }
 

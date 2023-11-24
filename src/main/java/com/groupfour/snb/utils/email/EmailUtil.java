@@ -1,35 +1,30 @@
 package com.groupfour.snb.utils.email;
 
 import com.groupfour.snb.models.user.User;
+import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+@AllArgsConstructor
 @Slf4j
 @Service
-public class EmailUtil extends EmailGeneratorUtil{
-
-    public EmailUtil(JavaMailSender mailSender) {
-        super(mailSender);
-    }
+public class EmailUtil{
+    @Autowired
+    private EmailGeneratorUtil emailGenerator;
+    private static final String VERIFICATION_EMAIL = "registrationEmail";
 
     public void sendVerificationEmail(String tokenId, User user){
-        String link = ServletUriComponentsBuilder
-                        .fromCurrentRequest()
-                        .path("/confirm-account")
-                        .queryParam("tokenId",tokenId)
-                        .toUriString();
-
-        generateHttpMessage(generateVerificationEmail(link, user), user.getEmail(), "Email Verification");
-        getMailSender().send(
-                generateHttpMessage(generateVerificationEmail(link, user), user.getEmail(), "Email Verification")
-        );
+        String link = ServletUriComponentsBuilder.newInstance()
+                .scheme("http")
+                .host("localhost")
+                .port("5173")
+                .path("/confirm-account/" + tokenId)
+                .toUriString();
+        emailGenerator.context.setVariable("url_link", link);
+        String body = emailGenerator.getTemplateEngine().process(VERIFICATION_EMAIL, emailGenerator.context);
+        emailGenerator.sendMessage(body, user.getEmail(), "Activate your Account");
         log.info("Verification Sent");
-    }
-
-    private String generateVerificationEmail(String link, User user){
-        String withName = VERIFICATION_EMAIL.replace("**name", user.getFirstName()+ " " + user.getLastName());
-        return withName.replace("**link",link);
     }
 }

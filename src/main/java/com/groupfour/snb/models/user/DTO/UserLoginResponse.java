@@ -1,6 +1,5 @@
 package com.groupfour.snb.models.user.DTO;
 
-import com.groupfour.snb.models.user.User;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -11,6 +10,5 @@ import lombok.NoArgsConstructor;
 @Builder
 @Data
 public class UserLoginResponse {
-     private User user;
      private String jwt;
 }

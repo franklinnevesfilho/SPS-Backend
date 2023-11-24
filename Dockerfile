@@ -3,7 +3,7 @@ COPY . .
 
 RUN mvn clean package -DskipTests
 
-FROM openjdk:22-jdk-slim
+FROM openjdk:17-jdk-slim
 
 COPY --from=build /target/SNB-0.0.1-SNAPSHOT.jar sps.jar
 

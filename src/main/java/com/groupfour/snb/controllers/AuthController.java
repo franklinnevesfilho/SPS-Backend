@@ -17,7 +17,6 @@ import java.util.function.Function;
  */
 @RestController
 @RequestMapping("/auth")
-@CrossOrigin("*")
 public class AuthController extends MainController {
     private AuthService authService;
     private final Function<Validator, Response> LOGIN_USER = (body) -> authService.loginUser((UserLogin) body);
