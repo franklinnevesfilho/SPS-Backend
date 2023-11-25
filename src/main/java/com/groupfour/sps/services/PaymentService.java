@@ -27,6 +27,7 @@ public class PaymentService extends MainService{
         Optional<User> user = userRepository.findById(userId);
         List<Transaction> transactions = new LinkedList<>();
         List<String> errors = new LinkedList<>();
+
         if(user.isPresent()){
             user.get().getCart().forEach((listing ->{
                 Transaction transaction = new Transaction();

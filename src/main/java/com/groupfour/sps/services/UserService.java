@@ -1,11 +1,14 @@
 package com.groupfour.sps.services;
 
+import com.groupfour.sps.models.listing.Listing;
 import com.groupfour.sps.models.user.Role;
 import com.groupfour.sps.models.user.User;
 import com.groupfour.sps.repositories.UserRepository;
+import com.groupfour.sps.repositories.listing.ListingRepository;
 import com.groupfour.sps.utils.responses.Response;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
@@ -18,6 +21,7 @@ import java.util.Optional;
 @RequiredArgsConstructor
 @Service
 public class UserService extends MainService  {
+    private final ListingRepository listingRepository;
     private final UserRepository userRepository;
     private final RoleService roleService;
 
@@ -81,5 +85,26 @@ public class UserService extends MainService  {
         }
 
         return Response.builder().node(mapToJson(user)).errors(errors).build();
+    }
+
+    public Response addToCart(String listingId, String userId){
+        Optional<Listing> listing = listingRepository.findById(listingId);
+        Optional<User> user = userRepository.findById(userId);
+        List<String> errors = new LinkedList<>();
+        List<Listing> cart = null;
+
+        if(user.isPresent()){
+            if(listing.isPresent()){
+                user.get().getCart().add(listing.get());
+
+                userRepository.save(user.get());
+            }else{
+                errors.add("Listing with id: " + listingId + " - not found");
+            }
+            cart = user.get().getCart();
+        }else{
+            errors.add("user not found");
+        }
+        return Response.builder().node(mapToJson(cart)).errors(errors).build();
     }
 }

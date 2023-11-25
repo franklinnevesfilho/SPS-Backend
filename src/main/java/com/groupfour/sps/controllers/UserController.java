@@ -23,6 +23,7 @@ public class UserController extends MainController {
     private UserService userService;
     private final BiFunction<String,Object,Response> SELLER_REQUEST = (userId, licenceNum) -> userService.sellerRequest(userId,(String)licenceNum);
     private final Supplier<Response> GET_ALL_LISTINGS = () -> listingService.getAllListings();
+    private final BiFunction<String, Object, Response> ADD_TO_CART = (listingId, userId) -> userService.addToCart(listingId,(String)userId);
 
     public UserController(ListingService listingService, UserService userService){
         this.listingService = listingService;
@@ -56,8 +57,8 @@ public class UserController extends MainController {
         return genericGetByTwoParameter(SELLER_REQUEST, user.getName(), licence);
     }
 
-    @GetMapping("/add-to-cart/{listingId}")
-    public ResponseEntity<Response> addToCart(@PathVariable("listingId") String listingId, Authentication user){
-        return factory.generateNoContentResponse();
+    @GetMapping("/add-to-cart/")
+    public ResponseEntity<Response> addToCart(@RequestParam String listing, Authentication user){
+        return genericGetByTwoParameter(ADD_TO_CART, listing, user.getName());
     }
 }

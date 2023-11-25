@@ -25,7 +25,7 @@ public class PaymentController extends MainController {
         this.payService = payService;
     }
 
-    @PostMapping("/checkout-cart")
+    @GetMapping("/checkout-cart")
     public ResponseEntity<Response> checkoutCart(Authentication user){
         return genericGetByParameter(CHECKOUT_CART, user.getName());
     }

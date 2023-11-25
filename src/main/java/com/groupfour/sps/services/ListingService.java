@@ -29,6 +29,7 @@ public class ListingService extends MainService {
                 .seller(User.builder().id(userId).build())
                 .title(listing.title())
                 .description(listing.description())
+                .price(listing.price())
                 .build());
         return Response.builder()
                 .node(mapToJson(listingCreated))

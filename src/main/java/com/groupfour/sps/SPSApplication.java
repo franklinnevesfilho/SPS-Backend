@@ -53,15 +53,41 @@ public class SPSApplication {
                         .authorities(roles)
                         .build();
 
+                User payeeUser = User.builder()
+                        .firstName("Payee")
+                        .lastName("payee-last-name")
+                        .email("sb-hy654327881332@personal.example.com")
+                        .password(passwordEncoder.encode("password"))
+                        .enabled(true)
+                        .authorities(roles)
+                        .build();
+
+                User payerUser = User.builder()
+                        .firstName("Payee")
+                        .lastName("payee-last-name")
+                        .email("sb-tvndc27873284@personal.example.com")
+                        .password(passwordEncoder.encode("password"))
+                        .enabled(true)
+                        .authorities(roles)
+                        .build();
+
                 userService.save(user);
                 userService.save(user1);
+                userService.save(payeeUser);
+                userService.save(payerUser);
+
+                userService.sellerRequest(payeeUser.getId(), "NF12351546GWHI");
                 userService.sellerRequest(user.getId(), "fwenijwoefvbw");
+
+
+               listingService.addListing(new CreateListing("paymentTest","Item is priced at $10",10.00), payeeUser.getId());
 
                listingService.addListing(new CreateListing("title1","description1",10.00), user.getId());
                listingService.addListing(new CreateListing("title2","description2",15.00), user.getId());
                listingService.addListing(new CreateListing("title3","description3",25.00), user.getId());
 
-                log.info("Finished building base users");
+
+               log.info("Finished building base users");
            }
         };
 
