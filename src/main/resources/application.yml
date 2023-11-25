@@ -1,15 +1,7 @@
-#             paypal integration
-paypal :
-  mode: sandbox
-  client :
-    id : ${PAYPAL_ID}
-    secret : ${PAYPAL_SECRET}
-
-
 spring:
 #           Database configurations
   datasource:
-    url : jdbc:mysql://${DB_URL:localhost}:${DB_PORT}/sps
+    url : ${DB_URL}
     username : ${DB_USERNAME}
     password : ${DB_PASSWORD}
     driver-class-name : com.mysql.cj.jdbc.Driver
