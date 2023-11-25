@@ -2,6 +2,9 @@ package com.groupfour.sps.services;
 
 import com.groupfour.sps.models.listing.Listing;
 import com.groupfour.sps.models.listing.Order;
+import com.groupfour.sps.models.user.User;
+import com.groupfour.sps.repositories.UserRepository;
+import com.groupfour.sps.utils.responses.Response;
 import com.paypal.api.payments.*;
 import com.paypal.base.rest.APIContext;
 import com.paypal.base.rest.PayPalRESTException;
@@ -10,14 +13,33 @@ import org.springframework.stereotype.Service;
 
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Optional;
 
 @RequiredArgsConstructor
 @Service
 public class PaymentService extends MainService{
     private final static String SUCCESS_URL = "";
     private final static String CANCEL_URL = "";
-
+    private final UserRepository userRepository;
     private final APIContext context;
+
+    public Response checkoutCart(String userId){
+        Optional<User> user = userRepository.findById(userId);
+        List<Transaction> transactions = new LinkedList<>();
+        List<String> errors = new LinkedList<>();
+        if(user.isPresent()){
+            user.get().getCart().forEach((listing ->{
+                Transaction transaction = new Transaction();
+                transaction.setAmount(getAmount(listing.getPrice()));
+                transaction.setPayee(getPayee(listing));
+                transactions.add(transaction);
+            }));
+        }else{
+            errors.add("User not found");
+        }
+
+        return Response.builder().node(mapToJson(transactions)).errors(errors).build();
+    }
 
     public Payment executePayment(String paymentId, String payerId) throws PayPalRESTException{
         Payment payment = new Payment();
@@ -72,6 +94,9 @@ public class PaymentService extends MainService{
         return transactions;
     }
 
+    private Payee getPayee(Listing listing){
+        return new Payee().setEmail(listing.getSeller().getEmail());
+    }
     private Amount getAmount(Double price){
         Amount amount = new Amount();
         amount.setCurrency("USD");

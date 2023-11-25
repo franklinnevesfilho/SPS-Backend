@@ -45,7 +45,9 @@ public class SPSApplication {
                         .build();
 
                 User user1 = User.builder()
-                        .email("@test")
+                        .firstName("Tyler")
+                        .lastName("Francis")
+                        .email("TylerFrancis@gmail.com")
                         .password(passwordEncoder.encode("password"))
                         .enabled(true)
                         .authorities(roles)
