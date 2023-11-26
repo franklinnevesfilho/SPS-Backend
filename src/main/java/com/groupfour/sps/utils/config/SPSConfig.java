@@ -28,4 +28,13 @@ public class SPSConfig {
         log.info("Deleted Expired Registration Tokens");
     }
 
+    @Scheduled(fixedDelay = 1, timeUnit = TimeUnit.HOURS)
+    public void deleteExpired2FA(){
+        registrationTokenUtil.getAll().forEach(token ->{
+            if(token.isExpired()) registrationTokenUtil.delete(token);
+        });
+
+        log.info("Deleted Expired Registration Tokens");
+    }
+
 }
