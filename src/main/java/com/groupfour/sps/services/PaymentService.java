@@ -42,20 +42,11 @@ public class PaymentService extends MainService{
         return Response.builder().node(mapToJson(transactions)).errors(errors).build();
     }
 
-    public Payment executePayment(String paymentId, String payerId) throws PayPalRESTException{
-        Payment payment = new Payment();
-        payment.setId(paymentId);
-        PaymentExecution paymentExecute = new PaymentExecution();
-        paymentExecute.setPayerId(payerId);
-        return payment.execute(context, paymentExecute);
-    }
-
-    public Payment createPayment(Order order) throws PayPalRESTException {
+    public Response createOrder(Order order){
         Amount amount = new Amount();
         Transaction transaction = new Transaction();
         Payer payer = new Payer();
         Payment payment = new Payment();
-
 
         amount.setCurrency(order.getCurrency());
         // show only up to 2 decimal places
@@ -77,28 +68,28 @@ public class PaymentService extends MainService{
 
         payment.setRedirectUrls(redirectUrls);
 
-        return payment.create(context);
-    }
-
-    public List<Transaction> getTransactions(List<Listing> cart){
-        List<Transaction> transactions = new LinkedList<>();
-
-        for(Listing listing: cart){
-            Amount amount = getAmount(listing.getPrice());
-            Transaction transaction = new Transaction();
-
-            transaction.setDescription(listing.getDescription());
-            transaction.setAmount(amount);
-            transactions.add(transaction);
+        Payment paymentCreated = null;
+        try{
+            paymentCreated = payment.create(context);
+        }catch(Exception e){
+            //TODO: Nothing
         }
 
-        return transactions;
+        return Response.builder().node(mapToJson(paymentCreated)).build();
+    }
+
+    public Payment executePayment(String paymentId, String payerId) throws PayPalRESTException{
+        Payment payment = new Payment();
+        payment.setId(paymentId);
+        PaymentExecution paymentExecute = new PaymentExecution();
+        paymentExecute.setPayerId(payerId);
+        return payment.execute(context, paymentExecute);
     }
 
     private Payee getPayee(Listing listing){
         return new Payee().setEmail(listing.getSeller().getEmail());
     }
-    private Amount getAmount(Double price){
+    private Amount getAmount(Double price) {
         Amount amount = new Amount();
         amount.setCurrency("USD");
         amount.setTotal(String.format("%.2f", price));

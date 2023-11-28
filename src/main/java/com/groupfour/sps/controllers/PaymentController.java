@@ -1,5 +1,7 @@
 package com.groupfour.sps.controllers;
 
+import com.groupfour.sps.models.interfaces.Validator;
+import com.groupfour.sps.models.listing.Order;
 import com.groupfour.sps.services.PaymentService;
 import com.groupfour.sps.utils.responses.Response;
 import com.paypal.api.payments.Payment;
@@ -20,15 +22,23 @@ public class PaymentController extends MainController {
 
     private PaymentService payService;
     private final Function<String, Response> CHECKOUT_CART = (userId) -> payService.checkoutCart(userId);
+    private final Function<Validator, Response> CREATE_ORDER = (order) -> payService.createOrder((Order)order);
 
     public PaymentController(PaymentService payService){
         this.payService = payService;
+    }
+
+    @PostMapping("/create-order")
+    public ResponseEntity<Response> createOrder(@RequestBody Order order){
+        return genericRequest(CREATE_ORDER, order);
     }
 
     @GetMapping("/checkout-cart")
     public ResponseEntity<Response> checkoutCart(Authentication user){
         return genericGetByParameter(CHECKOUT_CART, user.getName());
     }
+
+
 
 //    @PostMapping("/checkout")
 //    public Payment payment(@RequestBody Order order) throws PayPalRESTException {
