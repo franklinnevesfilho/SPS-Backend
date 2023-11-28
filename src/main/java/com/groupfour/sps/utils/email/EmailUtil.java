@@ -8,32 +8,39 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 @Slf4j
 @Service
-public class EmailUtil{
+public class EmailUtil {
     private final EmailGeneratorUtil emailGenerator;
-    private static final String VERIFICATION_EMAIL = "registrationEmail";
-    private static final String OTP_EMAIL = "OTPEmail";
+    private static final String VERIFICATION_EMAIL_TEMPLATE = "registrationEmail";
+    private static final String TWO_FACTOR_EMAIL_TEMPLATE = "OTPEmail";
 
-    public EmailUtil(EmailGeneratorUtil emailGenerator){
+    public EmailUtil(EmailGeneratorUtil emailGenerator) {
         this.emailGenerator = emailGenerator;
     }
 
-    public void sendVerificationEmail(String tokenId, User user){
-        String link = ServletUriComponentsBuilder.newInstance()
+    public void sendVerificationEmail(String tokenId, User user) {
+        String link = buildVerificationLink(tokenId);
+        emailGenerator.context.setVariable("url_link", link);
+        String body = emailGenerator.getTemplateEngine().process(VERIFICATION_EMAIL_TEMPLATE, emailGenerator.context);
+        sendEmail(body, user.getEmail(), "Activate your Account", "Verification Sent");
+    }
+
+    public void sendTwoFactorEmail(TwoFactorToken token, String email) {
+        emailGenerator.context.setVariable("two_factor", token.getToken());
+        String body = emailGenerator.getTemplateEngine().process(TWO_FACTOR_EMAIL_TEMPLATE, emailGenerator.context);
+        sendEmail(body, email, "One Time passcode", "Two factor sent for user with email: " + email);
+    }
+
+    private String buildVerificationLink(String tokenId) {
+        return ServletUriComponentsBuilder.newInstance()
                 .scheme("http")
                 .host("localhost")
                 .port("5173")
                 .path("/confirm-account/" + tokenId)
                 .toUriString();
-        emailGenerator.context.setVariable("url_link", link);
-        String body = emailGenerator.getTemplateEngine().process(VERIFICATION_EMAIL, emailGenerator.context);
-        emailGenerator.sendMessage(body, user.getEmail(), "Activate your Account");
-        log.info("Verification Sent");
     }
 
-    public void sendOTPEmail(TwoFactorToken token, String email){
-        emailGenerator.context.setVariable("OTP", token.getToken());
-        String body = emailGenerator.getTemplateEngine().process(OTP_EMAIL, emailGenerator.context);
-        emailGenerator.sendMessage(body, email, "One Time passcode");
-        log.info("OTP sent for user with email: "+ email);
+    private void sendEmail(String body, String recipientEmail, String subject, String logMessage) {
+        emailGenerator.sendMessage(body, recipientEmail, subject);
+        log.info(logMessage);
     }
 }

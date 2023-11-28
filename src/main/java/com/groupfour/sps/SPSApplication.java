@@ -78,6 +78,8 @@ public class SPSApplication {
                 }
 
                log.info("Finished building base users");
+           }else{
+               log.info("System up and running");
            }
         };
 

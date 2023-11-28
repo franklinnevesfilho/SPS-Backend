@@ -75,6 +75,7 @@ public class AuthService extends MainService{
         Response response = Response.builder().build();
         List<String> errors = new LinkedList<>();
         UserProfile userProfile = null;
+
         if(foundUser.isPresent() && foundUser.get().isEnabled()) {
              SecurityUser secUser = SecurityUser.builder()
                      .user(User.builder()
@@ -98,17 +99,18 @@ public class AuthService extends MainService{
                             .jwt(jwtToken)
                             .build();
                     twoFactorRepository.save(twoFactorToken);
-                    log.info("OTP Token : " + twoAuth);
-
-                    emailService.sendOTPEmail(twoFactorToken, foundUser.get().getEmail());
+                    emailService.sendTwoFactorEmail(twoFactorToken, foundUser.get().getEmail());
+                }else{
+                    log.info("no otp token");
                 }
 
             } else {
-                log.warn("user was not authenticated");
+                log.warn("Not authenticated");
                 errors.add(LOGIN_ERROR);
             }
         }
         else {
+            log.info("no user found");
             errors.add(LOGIN_ERROR);
         }
         response.setNode(mapToJson(UserLoginResponse.builder()
