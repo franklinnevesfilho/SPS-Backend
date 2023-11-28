@@ -22,6 +22,7 @@ public class AuthController extends MainController {
     private final Function<Validator, Response> LOGIN_USER = (body) -> authService.loginUser((UserLogin) body);
     private final Function<Validator, Response> REGISTER_USER = (body) -> authService.registerUser((UserRegistration) body);
     private final Function<String, Response> CONFIRM_ACCOUNT = (body) -> authService.confirmAccount(body);
+    private final Function<String, Response> CONFIRM_OTP = (otp) -> authService.confirmOTP(otp);
     public AuthController(AuthService authService){
         this.authService = authService;
     }
@@ -50,5 +51,15 @@ public class AuthController extends MainController {
     @GetMapping("/register/confirm-account")
     public ResponseEntity<Response> confirmAccount(@RequestParam String tokenId){
         return genericGetByParameter(CONFIRM_ACCOUNT, tokenId);
+    }
+
+    /**
+     * Can only be enabled if the user is logged in and only then will start checking
+     * @param otp this is a one time code that is deleted after verifying
+     * @return the userProfile along with a jwt token
+     */
+    @GetMapping("/verify-otp/{otp}")
+    public ResponseEntity<Response> confirmOTP(@PathVariable String otp){
+        return genericGetByParameter(CONFIRM_OTP, otp);
     }
 }

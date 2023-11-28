@@ -1,5 +1,6 @@
 package com.groupfour.sps.models.user;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
@@ -20,10 +21,13 @@ import org.springframework.security.core.GrantedAuthority;
 @Entity
 @Table(name = "roles")
 public class Role implements GrantedAuthority {
+
     @Id
     @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.AUTO)
+    @JsonIgnore
     private Integer roleId;
+
     @Column(name = "authority")
     private String authority;
     @Override

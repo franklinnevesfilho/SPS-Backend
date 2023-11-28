@@ -1,12 +1,17 @@
 package com.groupfour.sps.services;
 
+import com.groupfour.sps.models.tokens.TwoFactorToken;
 import com.groupfour.sps.models.user.*;
 import com.groupfour.sps.models.user.DTO.UserLogin;
+import com.groupfour.sps.models.user.DTO.UserLoginResponse;
 import com.groupfour.sps.models.user.DTO.UserRegistration;
+import com.groupfour.sps.repositories.TwoFactorRepository;
 import com.groupfour.sps.repositories.UserRepository;
+import com.groupfour.sps.utils.email.EmailUtil;
 import com.groupfour.sps.utils.security.AuthProvider;
 import com.groupfour.sps.models.user.SecurityUser;
 import com.groupfour.sps.utils.responses.Response;
+import com.groupfour.sps.utils.security.tokens.OTPTokenGenerator;
 import com.groupfour.sps.utils.security.tokens.jwt.JwtTokenService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -30,6 +35,9 @@ public class AuthService extends MainService{
     private final UserRepository userRepository;
     private final RegistrationTokenService registrationService;
     private final JwtTokenService jwtTokenService;
+    private final TwoFactorRepository twoFactorRepository;
+    private final EmailUtil emailService;
+
     private final static String LOGIN_ERROR = "Email or password have been inputted incorrectly.";
     /**
      * This method is called once the user has entered their info and is ready to confirm their account
@@ -66,6 +74,7 @@ public class AuthService extends MainService{
         Optional<User> foundUser = userRepository.findByEmail(userLogin.getEmail());
         Response response = Response.builder().build();
         List<String> errors = new LinkedList<>();
+        UserProfile userProfile = null;
         if(foundUser.isPresent() && foundUser.get().isEnabled()) {
              SecurityUser secUser = SecurityUser.builder()
                      .user(User.builder()
@@ -78,6 +87,22 @@ public class AuthService extends MainService{
                 secUser = SecurityUser.builder().user(foundUser.get()).build();
 
                 jwtToken = jwtTokenService.generateJwt(secUser);
+                userProfile = UserProfile.builder()
+                        .twoFactorEnabled(foundUser.get().isTwoFactorEnabled())
+                        .email(foundUser.get().getEmail())
+                        .build();
+                if(foundUser.get().isTwoFactorEnabled()){
+                    String twoAuth = OTPTokenGenerator.generateToken();
+                    TwoFactorToken twoFactorToken = TwoFactorToken.builder()
+                            .token(twoAuth)
+                            .jwt(jwtToken)
+                            .build();
+                    twoFactorRepository.save(twoFactorToken);
+                    log.info("OTP Token : " + twoAuth);
+
+                    emailService.sendOTPEmail(twoFactorToken, foundUser.get().getEmail());
+                }
+
             } else {
                 log.warn("user was not authenticated");
                 errors.add(LOGIN_ERROR);
@@ -86,7 +111,10 @@ public class AuthService extends MainService{
         else {
             errors.add(LOGIN_ERROR);
         }
-        response.setNode(mapToJson(jwtToken));
+        response.setNode(mapToJson(UserLoginResponse.builder()
+                .user(userProfile)
+                .jwt(jwtToken)
+                .build()));
         response.setErrors(errors);
         return response;
     }
@@ -97,5 +125,21 @@ public class AuthService extends MainService{
      */
     public Response confirmAccount(String token) {
         return registrationService.verifyRegistrationToken(token);
+    }
+
+    public Response confirmOTP(String otp) {
+        Optional<TwoFactorToken> token = twoFactorRepository.findByToken(otp);
+        String response = "";
+        List<String> errors = new LinkedList<>();
+        if(token.isPresent()) {
+            response = token.get().getJwt();
+            twoFactorRepository.delete(token.get());
+        }else{
+            errors.add("OTP INVALID");
+        }
+        return Response.builder()
+                .node(mapToJson(response))
+                .errors(errors)
+                .build();
     }
 }

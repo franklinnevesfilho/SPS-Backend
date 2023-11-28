@@ -7,6 +7,12 @@ import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 
 public class MainService {
     private final ObjectMapper mapper = new ObjectMapper().configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+
+    /**
+     * Construct a JsonNode object based on a given object
+     * @param obj Object being converted into a JsonNode
+     * @return returns a JsonNode of the given object
+     */
     protected JsonNode mapToJson(Object obj) {
         mapper.registerModule(new JavaTimeModule());
         return mapper.convertValue(obj, JsonNode.class);

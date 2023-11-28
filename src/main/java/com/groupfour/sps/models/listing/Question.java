@@ -1,11 +1,12 @@
-package com.groupfour.sps.models.listing.attributes;
+package com.groupfour.sps.models.listing;
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
-import com.groupfour.sps.models.listing.Listing;
 import com.groupfour.sps.models.user.User;
 import jakarta.persistence.*;
 import lombok.*;
+
+import java.time.LocalDate;
 
 @JsonIdentityInfo(
         generator = ObjectIdGenerators.PropertyGenerator.class,
@@ -15,8 +16,8 @@ import lombok.*;
 @Builder
 @Entity
 @Data
-@Table(name = "messages")
-public class Message {
+@Table(name = "questions")
+public class Question {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private String id;
@@ -24,11 +25,12 @@ public class Message {
     @ManyToOne
     @JoinColumn(name = "listing_id")
     private Listing listing;
-
     @ManyToOne
     @JoinColumn(name = "user_id")
     private User user;
-    private String message;
+    @Builder.Default
+    private LocalDate createdAt  = LocalDate.now();
+    private String question;
     private String answer;
 }
 

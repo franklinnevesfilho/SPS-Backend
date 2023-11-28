@@ -13,7 +13,9 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
+import java.text.DecimalFormat;
 import java.util.HashSet;
+import java.util.Random;
 import java.util.Set;
 
 @Slf4j
@@ -29,63 +31,51 @@ public class SPSApplication {
         return args -> {
             // Only to be used when Database is in update mode
            if (!roleService.isAuthorityPresent("ADMIN")) {
-                Role adminRole = roleService.addRole(Role.builder().authority("ADMIN").build());
-                roleService.addRole(Role.builder().authority("USER").build());
-                roleService.addRole(Role.builder().authority("SELLER").build());
-                Set<Role> roles = new HashSet<>();
-                roles.add(adminRole);
+                Role adminRole  =  roleService.addRole(Role.builder().authority("ADMIN").build());
+                Role userRole   =  roleService.addRole(Role.builder().authority("USER").build());
+                Role sellerRole =  roleService.addRole(Role.builder().authority("SELLER").build());
 
+                Set<Role> adminRoles = new HashSet<>();
+                adminRoles.add(adminRole);
+                adminRoles.add(userRole);
+
+                Set<Role> sellerRoles = new HashSet<>();
+                sellerRoles.add(sellerRole);
+                sellerRoles.add(userRole);
+
+                // Admin user
                 User user = User.builder()
                         .firstName("admin")
                         .lastName("admin")
-                        .email("@admin")
-                        .password(passwordEncoder.encode("password"))
+                        .email("admin@email.edu")
+                        .password(passwordEncoder.encode("adminPassword"))
                         .enabled(true)
-                        .authorities(roles)
-                        .build();
-
-                User user1 = User.builder()
-                        .firstName("Tyler")
-                        .lastName("Francis")
-                        .email("TylerFrancis@gmail.com")
-                        .password(passwordEncoder.encode("password"))
-                        .enabled(true)
-                        .authorities(roles)
-                        .build();
-
-                User payeeUser = User.builder()
-                        .firstName("Payee")
-                        .lastName("payee-last-name")
-                        .email("sb-hy654327881332@personal.example.com")
-                        .password(passwordEncoder.encode("password"))
-                        .enabled(true)
-                        .authorities(roles)
-                        .build();
-
-                User payerUser = User.builder()
-                        .firstName("Payee")
-                        .lastName("payee-last-name")
-                        .email("sb-tvndc27873284@personal.example.com")
-                        .password(passwordEncoder.encode("password"))
-                        .enabled(true)
-                        .authorities(roles)
+                        .authorities(adminRoles)
                         .build();
 
                 userService.save(user);
-                userService.save(user1);
-                userService.save(payeeUser);
-                userService.save(payerUser);
 
-                userService.sellerRequest(payeeUser.getId(), "NF12351546GWHI");
-                userService.sellerRequest(user.getId(), "fwenijwoefvbw");
+               DecimalFormat decimalFormat = new DecimalFormat("#.##");
 
+                // Create 20 fake sellers
+                for(int i = 0; i < 20 ;i++){
+                    User fakeUser = User.builder()
+                            .firstName("Faker")
+                            .lastName("seller " + i)
+                            .email("faker"+i+"@email.edu")
+                            .password(passwordEncoder.encode("password"))
+                            .license("license "+i)
+                            .enabled(true)
+                            .authorities(sellerRoles)
+                            .build();
+                    userService.save(fakeUser);
 
-               listingService.addListing(new CreateListing("paymentTest","Item is priced at $10",10.00), payeeUser.getId());
-
-               listingService.addListing(new CreateListing("title1","description1",10.00), user.getId());
-               listingService.addListing(new CreateListing("title2","description2",15.00), user.getId());
-               listingService.addListing(new CreateListing("title3","description3",25.00), user.getId());
-
+                    // every seller has 5 listings
+                    for (int j = 0; j < 5; j++) {
+                        Double randomPrice = new Random().nextDouble(50);
+                        listingService.addListing(new CreateListing("Book "+j,"Seller "+i+ "'s "+ j + " book", Double.parseDouble(decimalFormat.format(randomPrice))), fakeUser.getId());
+                    }
+                }
 
                log.info("Finished building base users");
            }

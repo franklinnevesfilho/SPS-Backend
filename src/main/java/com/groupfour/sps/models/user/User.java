@@ -2,8 +2,9 @@ package com.groupfour.sps.models.user;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+import com.groupfour.sps.models.Picture;
 import com.groupfour.sps.models.listing.Listing;
-import com.groupfour.sps.models.listing.attributes.Message;
+import com.groupfour.sps.models.listing.Question;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -40,6 +41,11 @@ public class User {
     private String password;
 
     private String license;
+    private boolean twoFactorEnabled;
+
+    @OneToOne
+    @JoinColumn(name="profile_id")
+    private Picture profile;
 
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
@@ -59,7 +65,7 @@ public class User {
 
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "user")
     @JsonIgnore
-    private List<Message> messages = new LinkedList<>();
+    private List<Question> questions = new LinkedList<>();
 
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(

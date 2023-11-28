@@ -34,7 +34,7 @@ public class UserRegistration implements Validator {
         if(firstName.contains(" ")){
             errors.add("Invalid name, cannot contain spaces");
         }
-        if(!email.contains("@")){
+        if(!email.contains("@") || !email.endsWith(".edu")){
             errors.add("Invalid Email");
         }
         if(password == null || password.contains(" ")){

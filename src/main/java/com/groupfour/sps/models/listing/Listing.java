@@ -2,8 +2,7 @@ package com.groupfour.sps.models.listing;
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
-import com.groupfour.sps.models.listing.attributes.Image;
-import com.groupfour.sps.models.listing.attributes.Message;
+import com.groupfour.sps.models.Picture;
 import com.groupfour.sps.models.user.User;
 import jakarta.persistence.*;
 import lombok.*;
@@ -48,10 +47,11 @@ public class Listing {
     private User seller;
 
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "listing")
-    private List<Message> messages;
+    private List<Question> questions;
 
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "listing")
-    private List<Image> images;
+    @OneToOne
+    @JoinColumn(name="picture_id")
+    private Picture image;
 
     @Builder.Default
     private LocalDate datePosted = LocalDate.now();
