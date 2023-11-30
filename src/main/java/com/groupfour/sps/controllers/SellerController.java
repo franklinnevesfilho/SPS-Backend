@@ -11,6 +11,14 @@ import org.springframework.web.bind.annotation.*;
 import java.util.function.BiFunction;
 import java.util.function.Function;
 
+/**
+ * <h1>Seller Controller</h1>
+ *
+ * Although not yet implemented this controller is responsible
+ * for handling and updating listings and other seller actions within our system
+ *
+ * @author Franklin Neves
+ */
 @RestController
 @RequestMapping("/seller")
 public class SellerController extends MainController {

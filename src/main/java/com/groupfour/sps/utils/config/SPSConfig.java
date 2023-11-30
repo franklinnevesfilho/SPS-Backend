@@ -10,6 +10,9 @@ import org.springframework.scheduling.annotation.Scheduled;
 
 import java.util.concurrent.TimeUnit;
 
+/**
+ * @author Franklin Neves
+ */
 @Slf4j
 @RequiredArgsConstructor
 @EnableAsync

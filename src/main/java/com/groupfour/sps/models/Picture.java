@@ -5,6 +5,11 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.NoArgsConstructor;
 
+/**
+ * Did not implement
+ *
+ * @author Luke Slaughterback
+ */
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder

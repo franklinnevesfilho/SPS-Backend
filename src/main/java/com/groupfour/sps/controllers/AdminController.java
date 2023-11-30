@@ -12,6 +12,7 @@ import java.util.function.Supplier;
 /**
  * <h1>Admin Controller</h1>
  * This controller can only be accessed by the admin role
+ * Allowing to get all users and possibly perform and needed functions
  * @author Franklin Neves Filho
  */
 @RestController

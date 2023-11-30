@@ -7,6 +7,10 @@ import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
 
+/**
+ * Used to send the token
+ * @author Franklin Neves
+ */
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder

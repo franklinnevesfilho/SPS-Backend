@@ -11,6 +11,9 @@ import org.springframework.stereotype.Component;
 
 import java.util.Optional;
 
+/**
+ * @author Franklin Neves
+ */
 @RequiredArgsConstructor
 @Builder
 @Data

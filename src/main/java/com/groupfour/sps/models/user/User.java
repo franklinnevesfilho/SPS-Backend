@@ -10,6 +10,11 @@ import lombok.*;
 
 import java.util.*;
 
+/**
+ * <h1>User model</h1>
+ *
+ * @author Franklin Neves
+ */
 @JsonIdentityInfo(
         generator = ObjectIdGenerators.PropertyGenerator.class,
         property = "id")

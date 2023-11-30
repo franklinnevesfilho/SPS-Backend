@@ -10,6 +10,10 @@ import lombok.NoArgsConstructor;
 import java.time.LocalDateTime;
 
 
+/**
+ * The model for our registration tokens
+ * @author Franklin Neves
+ */
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder

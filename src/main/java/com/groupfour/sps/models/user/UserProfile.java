@@ -8,6 +8,11 @@ import lombok.NoArgsConstructor;
 
 import java.util.Set;
 
+/**
+ * <h1>DTO</h1>
+ * Info needed for the profile
+ * @author Franklin Neves
+ */
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder

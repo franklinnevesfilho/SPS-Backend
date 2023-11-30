@@ -13,7 +13,10 @@ import java.util.function.Function;
 
 /**
  * <h1>Authentication Controller</h1>
- * This controller is responsible for every authentication process within our system. From logging in, to 2FA
+ *
+ * This controller is responsible for every authentication
+ * process within our system. From logging in, to 2FA
+ *
  * @author Franklin Neves Filho
  */
 @Slf4j

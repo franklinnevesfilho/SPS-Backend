@@ -15,6 +15,9 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * @author Franklin Neves
+ */
 @RequiredArgsConstructor
 @Slf4j
 @Service

@@ -14,7 +14,10 @@ import java.util.function.Function;
 
 /**
  * <h1>Payment Controller</h1>
- * This controller handles the transactional information withe the paypal api and our client server
+ * This controller handles the transactional
+ * information withe the paypal api and our client server
+ *
+ * @author Chang Fuxinyang
  */
 @RestController
 @RequestMapping("/pay")

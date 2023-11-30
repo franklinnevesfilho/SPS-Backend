@@ -7,7 +7,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 /**
- * <>This class is used to store the TwoAuthFactor Token</>
+ * <h1>This class is used to store the TwoAuthFactor Token</h1>
  * @author Franklin Neves Filho
  */
 @AllArgsConstructor

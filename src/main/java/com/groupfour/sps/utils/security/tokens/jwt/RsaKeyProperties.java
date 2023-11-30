@@ -8,6 +8,9 @@ import java.security.KeyPair;
 import java.security.interfaces.RSAPrivateKey;
 import java.security.interfaces.RSAPublicKey;
 
+/**
+ * @author Franklin Neves
+ */
 @Data
 @Component
 public class RsaKeyProperties {

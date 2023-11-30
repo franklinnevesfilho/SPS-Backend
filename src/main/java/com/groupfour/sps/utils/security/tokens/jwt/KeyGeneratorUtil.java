@@ -5,6 +5,9 @@ import lombok.extern.slf4j.Slf4j;
 import java.security.KeyPair;
 import java.security.KeyPairGenerator;
 
+/**
+ * @author Franklin Neves
+ */
 @Slf4j
 public class KeyGeneratorUtil {
     public static KeyPair generateRsaKey(){

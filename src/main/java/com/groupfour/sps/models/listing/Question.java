@@ -8,6 +8,10 @@ import lombok.*;
 
 import java.time.LocalDate;
 
+/**
+ * This class intentionally was to serve as the Q&A section of out website
+ * @author Franklin Neves
+ */
 @JsonIdentityInfo(
         generator = ObjectIdGenerators.PropertyGenerator.class,
         property = "id")

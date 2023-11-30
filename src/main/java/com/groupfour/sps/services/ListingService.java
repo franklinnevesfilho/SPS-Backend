@@ -18,6 +18,11 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * Responsible for all operations involving listings
+ *
+ * @author Franklin Neves
+ */
 @Slf4j
 @RequiredArgsConstructor
 @Service

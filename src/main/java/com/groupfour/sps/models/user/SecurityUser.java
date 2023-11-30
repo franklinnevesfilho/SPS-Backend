@@ -11,6 +11,13 @@ import org.springframework.security.core.GrantedAuthority;
 import java.util.Collection;
 
 
+/**
+ * <h1>Security User class</h1>
+ * To enable Spring security you must have a class that implements
+ * Authentication, so that when receiving data you are able to authenticate that specific user
+ *
+ * @author Franklin Neves
+ */
 @AllArgsConstructor
 @NoArgsConstructor
 @Data

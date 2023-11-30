@@ -7,7 +7,9 @@ import org.springframework.context.annotation.Configuration;
 
 import java.util.HashMap;
 import java.util.Map;
-
+/**
+ * @author Fuxinyang Chang
+ */
 @Configuration
 public class PaymentConfig {
     @Value("${PAYPAL_ID}")

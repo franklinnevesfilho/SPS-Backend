@@ -2,6 +2,9 @@ package com.groupfour.sps.utils.security.tokens;
 
 import java.util.Random;
 
+/**
+ * @author Otton Lara
+ */
 public class OTPTokenGenerator {
     private static final int DEFAULT_TOKEN_SIZE = 6;
 

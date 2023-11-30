@@ -17,8 +17,11 @@ import java.util.function.Supplier;
 
 /**
  * <h1>UserController</h1>
- * This controller will be our users access point, allowing them to perform actions
- * To access this controller a jwt token must be passed through the bea
+ *
+ * This controller will be our users access point,
+ * allowing them to perform actions throughout the system
+ * To access this controller a jwt token must be passed through the bearer token
+ *
  * @author Franklin Neves Filho
  */
 @Slf4j

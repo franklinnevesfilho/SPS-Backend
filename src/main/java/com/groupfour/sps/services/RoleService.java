@@ -5,6 +5,9 @@ import com.groupfour.sps.repositories.RoleRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+/**
+ * @author Franklin Neves
+ */
 @RequiredArgsConstructor
 @Service
 public class RoleService {
