@@ -99,6 +99,7 @@ public class AuthService extends MainService{
                             .jwt(jwtToken)
                             .build();
                     twoFactorRepository.save(twoFactorToken);
+                    log.info(twoAuth);
                     emailService.sendTwoFactorEmail(twoFactorToken, foundUser.get().getEmail());
                 }else{
                     log.info("no otp token");
