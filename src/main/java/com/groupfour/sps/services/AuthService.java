@@ -50,6 +50,8 @@ public class AuthService extends MainService{
         //Todo: retrieve what role you want to assign the user
         Role userRole = roleService.getRoleByAuthority("USER");
         authorities.add(userRole);
+        log.info("Email saved: " + registerUser.getEmail());
+        log.info("Password: " + registerUser.getPassword());
         return registrationService.registerUser(
                 userRepository.save(
                         User.builder()
@@ -70,13 +72,12 @@ public class AuthService extends MainService{
      * @return This will return a response either the logged-in user or a list of errors
      */
     public Response loginUser(UserLogin userLogin) {
-        String jwtToken = "";
         Optional<User> foundUser = userRepository.findByEmail(userLogin.getEmail());
-        Response response = Response.builder().build();
         List<String> errors = new LinkedList<>();
-        UserProfile userProfile = null;
+        UserLoginResponse user = null;
 
         if(foundUser.isPresent() && foundUser.get().isEnabled()) {
+            String jwtToken;
              SecurityUser secUser = SecurityUser.builder()
                      .user(User.builder()
                              .id(foundUser.get().getId())
@@ -88,10 +89,14 @@ public class AuthService extends MainService{
                 secUser = SecurityUser.builder().user(foundUser.get()).build();
 
                 jwtToken = jwtTokenService.generateJwt(secUser);
-                userProfile = UserProfile.builder()
+
+                user = UserLoginResponse.builder()
+                        .firstName(foundUser.get().getFirstName())
+                        .lastName(foundUser.get().getLastName())
                         .twoFactorEnabled(foundUser.get().isTwoFactorEnabled())
-                        .email(foundUser.get().getEmail())
+                        .jwt(jwtToken)
                         .build();
+
                 if(foundUser.get().isTwoFactorEnabled()){
                     String twoAuth = OTPTokenGenerator.generateToken();
                     TwoFactorToken twoFactorToken = TwoFactorToken.builder()
@@ -114,12 +119,10 @@ public class AuthService extends MainService{
             log.info("no user found");
             errors.add(LOGIN_ERROR);
         }
-        response.setNode(mapToJson(UserLoginResponse.builder()
-                .user(userProfile)
-                .jwt(jwtToken)
-                .build()));
-        response.setErrors(errors);
-        return response;
+        return Response.builder()
+                .node(mapToJson(user))
+                .errors(errors)
+                .build();
     }
 
     /**
