@@ -1,4 +1,4 @@
-package com.groupfour.sps.utils.security.tokens.jwt;
+package com.groupfour.sps.services;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;

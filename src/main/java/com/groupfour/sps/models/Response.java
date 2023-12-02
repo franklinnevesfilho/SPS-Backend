@@ -1,4 +1,4 @@
-package com.groupfour.sps.models.responses;
+package com.groupfour.sps.models;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import lombok.AllArgsConstructor;

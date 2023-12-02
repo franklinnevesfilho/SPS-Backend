@@ -1,4 +1,4 @@
-package com.groupfour.sps.utils.email;
+package com.groupfour.sps.utils.config;
 
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;

@@ -3,7 +3,7 @@ package com.groupfour.sps.controllers;
 import com.groupfour.sps.models.listing.DTO.CreateListing;
 import com.groupfour.sps.models.listing.Listing;
 import com.groupfour.sps.services.ListingService;
-import com.groupfour.sps.models.responses.Response;
+import com.groupfour.sps.models.Response;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;

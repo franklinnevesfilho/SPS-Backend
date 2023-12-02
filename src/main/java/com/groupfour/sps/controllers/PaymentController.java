@@ -3,7 +3,7 @@ package com.groupfour.sps.controllers;
 import com.groupfour.sps.models.interfaces.Validator;
 import com.groupfour.sps.models.listing.Order;
 import com.groupfour.sps.services.PaymentService;
-import com.groupfour.sps.models.responses.Response;
+import com.groupfour.sps.models.Response;
 import com.paypal.api.payments.Payment;
 import com.paypal.base.rest.PayPalRESTException;
 import org.springframework.http.ResponseEntity;

@@ -1,8 +1,8 @@
 package com.groupfour.sps.controllers;
 
 import com.groupfour.sps.models.interfaces.Validator;
-import com.groupfour.sps.models.responses.Response;
-import com.groupfour.sps.models.responses.ResponseFactory;
+import com.groupfour.sps.models.Response;
+import com.groupfour.sps.services.ResponseFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 
@@ -52,7 +52,7 @@ public class MainController {
                 responseEntity = factory.generateOkResponse(response);
             }
         }else{
-            responseEntity = factory.generateBadRequest();
+            responseEntity = factory.generateBadResponse();
         }
         return responseEntity;
     }
@@ -72,7 +72,7 @@ public class MainController {
                 responseEntity = factory.generateOkResponse(response);
             }
         }else{
-            responseEntity = factory.generateBadRequest();
+            responseEntity = factory.generateBadResponse();
         }
         return responseEntity;
     }
@@ -96,12 +96,12 @@ public class MainController {
                 if(errors == null || errors.isEmpty()){
                     responseEntity = factory.generateOkResponse(response);
                 }else{
-                    responseEntity = factory.generateBadRequest(errors);
+                    responseEntity = factory.generateBadResponse(errors);
                 }
             }
         }
         else{
-            responseEntity = factory.generateBadRequest(errors);
+            responseEntity = factory.generateBadResponse(errors);
         }
         return responseEntity;
     }

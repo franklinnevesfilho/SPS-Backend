@@ -7,9 +7,9 @@ import com.groupfour.sps.models.listing.Listing;
 import com.groupfour.sps.models.listing.Question;
 import com.groupfour.sps.models.user.User;
 import com.groupfour.sps.repositories.PictureRepository;
-import com.groupfour.sps.repositories.listing.ListingRepository;
-import com.groupfour.sps.repositories.listing.MessageRepository;
-import com.groupfour.sps.models.responses.Response;
+import com.groupfour.sps.repositories.ListingRepository;
+import com.groupfour.sps.repositories.QuestionRepository;
+import com.groupfour.sps.models.Response;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -28,7 +28,7 @@ import java.util.Optional;
 @Service
 public class ListingService extends MainService {
     private final ListingRepository listingRepository;
-    private final MessageRepository messageRepository;
+    private final QuestionRepository questionRepository;
     private final PictureRepository pictureRepository;
 
     public Response addListing(CreateListing listing, String userId) {
@@ -71,7 +71,7 @@ public class ListingService extends MainService {
         Optional<Listing> listing = listingRepository.findListingById(listingId);
         if(listing.isPresent()){
             Listing foundListing = listing.get();
-            messageRepository.save(
+            questionRepository.save(
                     Question.builder()
                             .user(user)
                             .listing(foundListing)

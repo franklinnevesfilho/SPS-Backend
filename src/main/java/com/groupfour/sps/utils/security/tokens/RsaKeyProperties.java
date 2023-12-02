@@ -1,5 +1,6 @@
-package com.groupfour.sps.utils.security.tokens.jwt;
+package com.groupfour.sps.utils.security.tokens;
 
+import com.groupfour.sps.utils.security.tokens.KeyGeneratorUtil;
 import lombok.Builder;
 import lombok.Data;
 import org.springframework.stereotype.Component;

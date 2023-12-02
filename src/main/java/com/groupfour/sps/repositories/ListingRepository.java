@@ -1,5 +1,5 @@
 
-package com.groupfour.sps.repositories.listing;
+package com.groupfour.sps.repositories;
 
 import com.groupfour.sps.models.listing.Listing;
 import org.springframework.data.jpa.repository.JpaRepository;

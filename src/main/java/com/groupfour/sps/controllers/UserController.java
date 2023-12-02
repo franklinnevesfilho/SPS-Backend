@@ -5,7 +5,7 @@ import com.groupfour.sps.models.interfaces.Validator;
 import com.groupfour.sps.models.user.DTO.SellerRequest;
 import com.groupfour.sps.services.ListingService;
 import com.groupfour.sps.services.UserService;
-import com.groupfour.sps.models.responses.Response;
+import com.groupfour.sps.models.Response;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;

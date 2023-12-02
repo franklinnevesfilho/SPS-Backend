@@ -1,5 +1,6 @@
-package com.groupfour.sps.models.responses;
+package com.groupfour.sps.services;
 
+import com.groupfour.sps.models.Response;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -22,17 +23,10 @@ public class ResponseFactory {
     }
 
     /**
-     * @return An instance of ResponseEntity<Response> with HttpStatus.UNAUTHORIZED
-     */
-    public ResponseEntity<Response> generateUnexpectedResponse(){
-        return genericResponse(null, HttpStatus.UNAUTHORIZED);
-    }
-
-    /**
      *
      * @return An instance of ResponseEntity<Response> with HttpStatus.BAD_REQUEST
      */
-    public ResponseEntity<Response> generateBadRequest(){
+    public ResponseEntity<Response> generateBadResponse(){
         return genericResponse(null, HttpStatus.BAD_REQUEST);
     }
 
@@ -40,17 +34,9 @@ public class ResponseFactory {
      * @param errors A list of Strings representing errors that occurred
      * @return An instance of ResponseEntity<Response> with HttpStatus.BAD_REQUEST
      */
-    public ResponseEntity<Response> generateBadRequest(List<String> errors){
+    public ResponseEntity<Response> generateBadResponse(List<String> errors){
         Response response = Response.builder().errors(errors).build();
         return genericResponse(response, HttpStatus.BAD_REQUEST);
-    }
-
-    /**
-     *
-     * @return An instance of ResponseEntity<Response> with HttpStatus.SERVICE_UNAVAILABLE
-     */
-    public ResponseEntity<Response> generateServiceUnavailable(){
-        return genericResponse(null, HttpStatus.SERVICE_UNAVAILABLE);
     }
 
     /**

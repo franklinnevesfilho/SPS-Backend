@@ -1,4 +1,4 @@
-package com.groupfour.sps.utils.email;
+package com.groupfour.sps.utils.config;
 
 import com.groupfour.sps.models.tokens.TwoFactorToken;
 import com.groupfour.sps.models.user.User;

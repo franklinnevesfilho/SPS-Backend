@@ -1,7 +1,7 @@
 package com.groupfour.sps.utils.security;
 
 import com.groupfour.sps.repositories.UserRepository;
-import com.groupfour.sps.utils.security.tokens.jwt.RsaKeyProperties;
+import com.groupfour.sps.utils.security.tokens.RsaKeyProperties;
 import com.nimbusds.jose.jwk.JWK;
 import com.nimbusds.jose.jwk.JWKSet;
 import com.nimbusds.jose.jwk.RSAKey;
@@ -40,7 +40,6 @@ import java.util.List;
  * <b>Such as:</b> passwordEncoder , authenticationManager, securityFilterChain
  *
  * @author Franklin Neves Filho
- * @Last-Modified: 09/08/2023
  */
 
 @RequiredArgsConstructor

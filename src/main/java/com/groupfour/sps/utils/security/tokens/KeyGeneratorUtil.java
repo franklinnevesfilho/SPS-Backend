@@ -1,4 +1,4 @@
-package com.groupfour.sps.utils.security.tokens.jwt;
+package com.groupfour.sps.utils.security.tokens;
 
 import lombok.extern.slf4j.Slf4j;
 
