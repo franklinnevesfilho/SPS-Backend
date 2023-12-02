@@ -2,7 +2,7 @@ package com.groupfour.sps.controllers;
 
 import com.groupfour.sps.services.ListingService;
 import com.groupfour.sps.services.UserService;
-import com.groupfour.sps.utils.responses.Response;
+import com.groupfour.sps.models.responses.Response;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 

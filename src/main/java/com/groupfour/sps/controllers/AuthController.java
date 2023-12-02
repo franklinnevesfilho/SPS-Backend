@@ -4,7 +4,7 @@ import com.groupfour.sps.models.interfaces.Validator;
 import com.groupfour.sps.models.user.DTO.UserLogin;
 import com.groupfour.sps.models.user.DTO.UserRegistration;
 import com.groupfour.sps.services.AuthService;
-import com.groupfour.sps.utils.responses.Response;
+import com.groupfour.sps.models.responses.Response;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

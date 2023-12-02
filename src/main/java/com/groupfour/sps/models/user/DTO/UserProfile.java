@@ -1,6 +1,7 @@
-package com.groupfour.sps.models.user;
+package com.groupfour.sps.models.user.DTO;
 
 import com.groupfour.sps.models.Picture;
+import com.groupfour.sps.models.user.Role;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;

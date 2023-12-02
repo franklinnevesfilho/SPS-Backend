@@ -1,4 +1,4 @@
-package com.groupfour.sps.utils.responses;
+package com.groupfour.sps.models.responses;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

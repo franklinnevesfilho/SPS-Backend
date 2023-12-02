@@ -1,8 +1,8 @@
 package com.groupfour.sps.controllers;
 
 import com.groupfour.sps.models.interfaces.Validator;
-import com.groupfour.sps.utils.responses.Response;
-import com.groupfour.sps.utils.responses.ResponseFactory;
+import com.groupfour.sps.models.responses.Response;
+import com.groupfour.sps.models.responses.ResponseFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 

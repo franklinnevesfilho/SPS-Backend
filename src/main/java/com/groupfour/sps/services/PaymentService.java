@@ -4,7 +4,7 @@ import com.groupfour.sps.models.listing.Listing;
 import com.groupfour.sps.models.listing.Order;
 import com.groupfour.sps.models.user.User;
 import com.groupfour.sps.repositories.UserRepository;
-import com.groupfour.sps.utils.responses.Response;
+import com.groupfour.sps.models.responses.Response;
 import com.paypal.api.payments.*;
 import com.paypal.base.rest.APIContext;
 import com.paypal.base.rest.PayPalRESTException;

@@ -3,7 +3,7 @@ package com.groupfour.sps.services;
 import com.groupfour.sps.models.tokens.RegistrationToken;
 import com.groupfour.sps.models.user.User;
 import com.groupfour.sps.repositories.RegistrationTokenRepository;
-import com.groupfour.sps.utils.responses.Response;
+import com.groupfour.sps.models.responses.Response;
 import com.groupfour.sps.utils.email.EmailUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

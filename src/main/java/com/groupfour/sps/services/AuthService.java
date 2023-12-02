@@ -10,7 +10,7 @@ import com.groupfour.sps.repositories.UserRepository;
 import com.groupfour.sps.utils.email.EmailUtil;
 import com.groupfour.sps.utils.security.AuthProvider;
 import com.groupfour.sps.models.user.SecurityUser;
-import com.groupfour.sps.utils.responses.Response;
+import com.groupfour.sps.models.responses.Response;
 import com.groupfour.sps.utils.security.tokens.OTPTokenGenerator;
 import com.groupfour.sps.utils.security.tokens.jwt.JwtTokenService;
 import lombok.RequiredArgsConstructor;

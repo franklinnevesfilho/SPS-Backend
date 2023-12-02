@@ -9,7 +9,7 @@ import com.groupfour.sps.models.user.User;
 import com.groupfour.sps.repositories.PictureRepository;
 import com.groupfour.sps.repositories.listing.ListingRepository;
 import com.groupfour.sps.repositories.listing.MessageRepository;
-import com.groupfour.sps.utils.responses.Response;
+import com.groupfour.sps.models.responses.Response;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
