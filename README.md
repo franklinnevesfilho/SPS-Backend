@@ -1,4 +1,4 @@
-# SNB-Backend
+# SPS-Backend
 This is our E-commerce API that will interact with our front end application via HTTP requests.
 
 **How to use?**
